@@ -4,7 +4,7 @@ ARG PANDOC_VERSION
 
 FROM rust:${RUST_VERSION}
 
-RUN cargo install typst-cli@${TYPST_VERSION}
+RUN cargo install typst-cli --version ${TYPST_VERSION}
 
 # Install dependencies and download pandoc
 RUN apt-get update && apt-get install -y curl tar && \
