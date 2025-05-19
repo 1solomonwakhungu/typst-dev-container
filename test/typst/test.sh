@@ -4,7 +4,10 @@ source test-utils.sh
 
 # Template specific tests
 check "distro" lsb_release -c
-check "greeting" [ $(cat /usr/local/etc/greeting.txt | grep hey) ]
+
+# Typst specific tests
+check "typst help" typst help
+check "typst help watch" typst help watch
 
 # Report result
 reportResults
