@@ -16,7 +16,7 @@
         },
         "typstVersion": {
             "type": "string",
-            "description": "Choose your typst version.",
+            "description": "Typst version:",
             "proposals": [
                 "latest",
                 "0.13.1",
