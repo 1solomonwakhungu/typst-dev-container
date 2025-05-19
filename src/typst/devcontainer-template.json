@@ -1,19 +1,12 @@
 {
     "id": "typst",
     "version": "1.0.0",
-    "name": "Typst",
+    "name": "Typst Dev Container",
     "description": "A Template to create a Typst project",
     "documentationURL": "https://github.com/devcontainers/template-starter/tree/main/src/typst",
+    "publisher": "Solomon Wakhungu <1solomonwakhungu@users.noreply.github.com>",
     "licenseURL": "https://github.com/devcontainers/template-starter/blob/main/LICENSE",
     "options": {
-        "imageVariant": {
-            "type": "string",
-            "description": "Rust version:",
-            "proposals": [
-                "4.0.2"
-            ],
-            "default": "4.0.2"
-        },
         "typstVersion": {
             "type": "string",
             "description": "Typst version:",

@@ -1,0 +1,38 @@
+name: "Typst: Build & Publish to ghcr.io"
+
+on:
+  push:
+    paths:
+      - "src/typst/Dockerfile"
+      - "src/typst/docker-bake.hcl"
+      - ".github/workflows/containers-typst.yaml"
+  workflow_dispatch:
+
+jobs:
+  build-push-typst:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: "Checkout repository"
+        uses: "actions/checkout@v4"
+
+      - name: "Setup QEMU"
+        uses: "docker/setup-qemu-action@v3"
+
+      - name: "Setup Docker `buildx`"
+        uses: "docker/setup-buildx-action@v3"
+
+      - name: "Login to `ghcr.io`"
+        uses: "docker/login-action@v3"
+        with:
+          registry: "ghcr.io"
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+
+      - id: bake
+        uses: docker/bake-action@v5
+        with:
+          workdir: "./src/typst"
+          push: true

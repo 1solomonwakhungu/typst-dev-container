@@ -1,6 +1,6 @@
 {
   "name": "Typst",
-  "image": "ghcr.io/devcontainers/templates/rust:${templateOption:imageVariant}",
+  "image": "ghcr.io/1solomonwakhungu/typst-dev-container/typst:${templateOption:typstVersion}",
 
   // 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
   // "features": {},
@@ -8,10 +8,31 @@
   // 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
 
-  "postCreateCommand": "cargo install typst-cli@${templateOption:typstVersion}",
+  "postCreateCommand": "",
 
   // 👇 Configure tool-specific properties.
-  // "customizations": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Typst LSP and renderer.
+        "myriad-dreamin.tinymist",
+        // Useful extensions for dev experience
+        "shardulm94.trailing-spaces", // Highlights straight whitespace
+        "stkb.rewrap" // Enables word-wrap on comments
+      ],
+      "settings": {
+        "files.eol": "\n",
+        "editor.formatOnSave": true,
+        "[typst]": {
+          "editor.formatOnSave": true
+        },
+        "tinymist.formatterMode": "typstyle",
+        "files.associations": {
+          "*.typ": "typst"
+        }
+      }
+    }
+  },
 
   // 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   "remoteUser": "root"
