@@ -1,4 +1,3 @@
-
 variable "LATEST" {
   type    = string
   default = "0.13.1"
@@ -25,9 +24,9 @@ target "typst" {
   dockerfile = "Dockerfile"
   platforms  = ["linux/amd64", "linux/arm64"]
   args = {
-    RUST_VERSION   = "${item.rust}"
-    TYPST_VERSION  = "${item.typst}"
-    PANDOC_VERSION = "${item.pandoc}"
+    RUST_VERSION   = item.rust
+    TYPST_VERSION  = item.typst
+    PANDOC_VERSION = item.pandoc
   }
   labels = {
     "org.opencontainers.image.source"        = repo
