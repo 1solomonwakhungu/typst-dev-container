@@ -2,7 +2,7 @@ ARG RUST_VERSION
 ARG TYPST_VERSION
 ARG PANDOC_VERSION
 
-FROM ghcr.io/devcontainers/templates/rust:${RUST_VERSION}
+FROM rust:${RUST_VERSION}
 
 RUN cargo install typst-cli@${TYPST_VERSION}
 
