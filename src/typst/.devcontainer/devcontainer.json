@@ -16,9 +16,11 @@
       "extensions": [
         // Typst LSP and renderer.
         "myriad-dreamin.tinymist",
+
         // Useful extensions for dev experience
         "shardulm94.trailing-spaces", // Highlights straight whitespace
-        "stkb.rewrap" // Enables word-wrap on comments
+        "stkb.rewrap", // Enables word-wrap on comments
+        "FreddyZhu.pandoc-assist" // Pandoc assistant
       ],
       "settings": {
         "files.eol": "\n",
