@@ -1,0 +1,18 @@
+{
+  "name": "Typst",
+  "image": "ghcr.io/devcontainers/templates/rust:${templateOption:imageVariant}",
+
+  // 👇 Features to add to the Dev Container. More info: https://containers.dev/implementors/features.
+  // "features": {},
+
+  // 👇 Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+
+  "postCreateCommand": "cargo install typst-cli@${templateOption:typstVersion}",
+
+  // 👇 Configure tool-specific properties.
+  // "customizations": {},
+
+  // 👇 Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  "remoteUser": "root"
+}
