@@ -3,7 +3,7 @@ cd $(dirname "$0")
 source test-utils.sh
 
 # Template specific tests
-check "distro" lsb_release -c
+check "distro" test -r /etc/os-release
 
 # Typst specific tests
 check "typst help" typst help
