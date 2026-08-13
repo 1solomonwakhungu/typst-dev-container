@@ -1,6 +1,6 @@
 variable "LATEST" {
   type    = string
-  default = "0.13.1"
+  default = "0.15.1"
 }
 
 group "default" {
@@ -14,9 +14,9 @@ image    = "ghcr.io/1solomonwakhungu/typst-dev-container/typst"
 target "typst" {
   matrix = {
     item = [
-      { typst = "0.13.1", rust = "1.87.0", pandoc = "3.7.0.1" },
-      { typst = "0.13.0", rust = "1.87.0", pandoc = "3.7" },
-      { typst = "0.12.0", rust = "1.87.0", pandoc = "3.7" },
+      { typst = "0.15.1", rust = "1.97.1", pandoc = "3.10.2" },
+      { typst = "0.15.0", rust = "1.97.1", pandoc = "3.10.2" },
+      { typst = "0.14.2", rust = "1.97.1", pandoc = "3.10.2" },
     ]
   }
   name       = "typst-v${replace(item.typst, ".", "-")}"
