@@ -24,6 +24,7 @@ jobs:
       - name: Validate build definition
         uses: docker/bake-action@v6
         with:
+          source: .
           workdir: ./src/typst
           targets: typst
           call: check
