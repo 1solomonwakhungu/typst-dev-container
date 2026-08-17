@@ -1,52 +1,146 @@
 # Typst + Pandoc Dev Container
 
-This repository provides a development container environment for working with Typst and Pandoc, enabling seamless PDF creation and LaTeX to Typst conversion workflows.
+**Reproducible, containerized Typst and Pandoc toolchain** — No installation hassles. Write markup, compile PDFs, convert documents with a single `git clone` and "Reopen in Container."
 
-![Header Image](/assets/header.png)
+![Typst Dev Container Header](./assets/header.png "Pre-configured development environment for Typst document creation and PDF generation")
 
+## The Problem
 
-## Features
+Setting up Typst and Pandoc locally is tedious:
+- **Version conflicts** across projects and systems
+- **Binary installation** complexity and brittleness
+- **Dependency management** across platforms (macOS, Linux, Windows)
+- **Wasted time** on toolchain setup instead of document writing
 
-- **Typst**: A modern markup-based typesetting system for creating beautiful PDF documents
-- **Pandoc**: A universal document converter that can transform LaTeX files into Typst format
-- **Pre-configured Environment**: All necessary tools and dependencies are pre-installed
-- **VS Code Integration**: Ready-to-use development environment
+This container solves it by providing a **ready-to-use, reproducible environment** where the exact versions of Typst, Pandoc, and Rust are locked and consistent.
 
-## Prerequisites
+## Quick Start (30 Seconds)
 
-Before using this dev container, ensure you have:
+1. Clone this repository and open it in VS Code
+2. Click **"Reopen in Container"** (or press <kbd>F1</kbd> → "Dev Containers: Reopen in Container")
+3. In the container terminal, create `hello.typ`:
+   ```typst
+   #set text(size: 14pt)
+   = Hello, Typst!
+   This is a simple PDF document.
+   ```
+4. Compile to PDF:
+   ```bash
+   typst compile hello.typ
+   ```
+5. View `hello.pdf` — done!
 
-1. A VS Code-like IDE (VS Code, VS Codium, etc.)
-2. The [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension installed
-3. Docker installed on your system
+## Key Features
 
-## Getting Started
+- **[Typst](https://typst.app/)** — Modern, fast markup-based typesetting system (similar to LaTeX but simpler syntax)
+- **[Pandoc](https://pandoc.org/)** — Universal document converter (LaTeX ↔ Typst, Markdown → PDF, and more)
+- **Rust toolchain** — Pre-installed for Typst development and customization
+- **VS Code integration** — Dev Container support with recommended extensions
+- **Multi-platform** — Runs on macOS, Linux, Windows (via Docker Desktop, WSL 2, or Codespaces)
 
-1. Clone this repository
-2. Open the project in VS Code
-3. When prompted, click "Reopen in Container" or use the command palette (F1) and select "Dev Containers: Reopen in Container"
+## Included Versions
 
-For a detailed walkthrough on using Dev Containers, check out this tutorial:
+This container bundles:
+- **Typst**: 0.15.1, 0.15.0, 0.14.2 (latest stable)
+- **Pandoc**: 3.10.2
+- **Rust**: 1.97.1
+- **Base image**: Debian 11 (Bullseye)
 
-[![Dev Containers Tutorial](https://img.youtube.com/vi/X7guekGZM20/0.jpg)](https://youtu.be/X7guekGZM20?t=72)
+See [STATUS.md](./STATUS.md) for version details and release notes.
+
+## Why This Is Better Than Manual Setup
+
+| Aspect | Manual Install | This Container |
+|--------|---|---|
+| **Setup time** | 10–30 minutes | 1–2 minutes (first run pulls image) |
+| **Version consistency** | Varies by machine | Locked and reproducible |
+| **Platform support** | OS-specific scripts needed | Works on macOS, Linux, Windows |
+| **Collaboration** | "Works on my machine" syndrome | Same environment for all developers |
+| **Cleanup** | Files scattered system-wide | Single `docker stop` command |
 
 ## Usage
 
-### Creating PDFs with Typst
+### Typst → PDF
 
-1. Create a new `.typ` file
-2. Write your document using Typst syntax
-3. Click on "preview" to view the PDF while typing
-4. Use the built-in Typst compiler to generate PDFs
+Create a new Typst document (`.typ` file):
 
-### Converting LaTeX to Typst
+```typst
+#set text(font: "Linux Libertine", size: 11pt)
+#set page(
+  paper: "us-letter",
+  margin: (x: 1.5in, y: 1in),
+)
 
-1. Place your LaTeX files in the workspace
-2. Use Pandoc to convert them:
-   ```bash
-   pandoc input.tex -o output.typ
-   ```
+= A Typst Document
+
+This is a simple example. Typst uses modern,
+intuitive syntax compared to LaTeX.
+
+- Fast compilation
+- Beautiful defaults
+- Powerful scripting
+```
+
+Compile and preview:
+
+```bash
+# One-time compile
+typst compile document.typ document.pdf
+
+# Watch for changes and auto-compile
+typst watch document.typ document.pdf
+```
+
+### LaTeX → Typst Conversion
+
+Convert existing LaTeX or Word documents:
+
+```bash
+# LaTeX to Typst
+pandoc article.tex -o article.typ
+
+# Word to Markdown (then edit for Typst)
+pandoc document.docx -o document.md
+
+# Markdown to PDF via Typst
+pandoc README.md -o README.pdf --from markdown
+```
+
+## Prerequisites
+
+1. **VS Code** or compatible IDE (VS Codium, Cursor, etc.)
+2. **[Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)**
+3. **Docker** (Docker Desktop on macOS/Windows, Docker Engine on Linux)
+
+**Optional**: Use GitHub Codespaces — no local Docker needed.
+
+## Troubleshooting
+
+### Container fails to build
+- **Ensure Docker is running** and has sufficient disk space (minimum 2GB)
+- **Pull latest image**: `docker pull mcr.microsoft.com/devcontainers/javascript-node:1-18-bullseye`
+- **Check logs**: Open the "Remote" output panel in VS Code for detailed error messages
+
+### `typst` or `pandoc` command not found
+- **Verify container is running**: Check the bottom-left corner of VS Code shows "Dev Container"
+- **Re-open container**: Close and reopen the workspace in the container
+
+### Slow first startup
+- **First build pulls ~500MB image** — subsequent starts are instant
+- **Network speed matters** — faster internet = faster initial setup
+
+## Learn More
+
+- [Typst Documentation](https://typst.app/docs/)
+- [Pandoc User Guide](https://pandoc.org/MANUAL.html)
+- [Dev Containers Specification](https://containers.dev/)
+
+## License
+
+MIT License — see [LICENSE](./LICENSE) for details.
 
 ## Contributing
 
-Feel free to submit issues and enhancement requests!
+Found a bug or have an improvement? [Open an issue](https://github.com/1solomonwakhungu/typst-dev-container/issues) or submit a pull request.
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
