@@ -13,7 +13,9 @@ API_ROOT = "https://api.github.com/repos"
 BAKE_FILE = Path("src/typst/docker-bake.hcl")
 DOCKERFILE = Path("src/typst/Dockerfile")
 TEMPLATE_FILE = Path("src/typst/devcontainer-template.json")
-STABLE_VERSION = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)$")
+# Upstream projects differ in how many components they publish: Typst and Rust
+# use X.Y.Z, while Pandoc ships tags such as 3.11, 3.10.2 and 3.9.0.2.
+STABLE_VERSION = re.compile(r"v?\d+(?:\.\d+)+")
 
 
 def github_json(path: str):
