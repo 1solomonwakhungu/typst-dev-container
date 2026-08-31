@@ -16,6 +16,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # The bake targets are multi-platform, which the default docker driver
+      # cannot handle, so buildx is required for the validation step below.
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Update toolchain versions
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
