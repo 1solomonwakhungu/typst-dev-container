@@ -14,12 +14,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # The bake targets are multi-platform, which the default docker driver
       # cannot handle, so buildx is required for the validation step below.
       - name: Setup Docker buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Update toolchain versions
         env:
@@ -27,15 +27,14 @@ jobs:
         run: python3 .github/scripts/update-toolchain.py
 
       - name: Validate build definition
-        uses: docker/bake-action@v6
+        uses: docker/bake-action@v7
         with:
-          source: .
-          workdir: ./src/typst
+          source: ./src/typst
           targets: typst
           call: check
 
       - name: Create update pull request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           branch: automated/update-typst-toolchain
           delete-branch: true
