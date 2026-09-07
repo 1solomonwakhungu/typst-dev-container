@@ -16,6 +16,10 @@ jobs:
 
   test:
     needs: [detect-changes]
+    # With no matching changes the filter emits `[]`, and GitHub rejects an
+    # empty matrix outright, failing the run. Skip the job instead so pull
+    # requests that touch no template still get a green check.
+    if: ${{ needs.detect-changes.outputs.templates != '[]' }}
     runs-on: ubuntu-latest
     continue-on-error: true
     strategy:
