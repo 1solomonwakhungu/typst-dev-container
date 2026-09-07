@@ -1,5 +1,7 @@
 # Status
 
 - Completed: updated and automated the Typst container toolchain.
-- Next: rerun CI with official Typst release binaries and merge pull request #2.
-- Current versions: Typst 0.15.1, 0.15.0, and 0.14.2; Rust 1.97.1; Pandoc 3.10.2.
+- Completed: the toolchain updater now adopts a release only once the
+  artifacts the image builds from are published, so a Docker Hub or upstream
+  upload lag no longer breaks the scheduled update.
+- Current versions: Typst 0.15.1, 0.15.0, and 0.14.2; Rust 1.98.0; Pandoc 3.11.
