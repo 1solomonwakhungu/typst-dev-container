@@ -1,0 +1,4 @@
+interface:
+  display_name: "Typst Dev Container"
+  short_description: "Set up reproducible Typst and Pandoc workspaces"
+  default_prompt: "Use $typst-dev-container to configure this project for reproducible Typst and Pandoc work."

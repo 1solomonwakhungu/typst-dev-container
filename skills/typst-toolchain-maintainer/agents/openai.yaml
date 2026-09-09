@@ -1,0 +1,4 @@
+interface:
+  display_name: "Typst Toolchain Maintainer"
+  short_description: "Maintain buildable Typst container versions safely"
+  default_prompt: "Use $typst-toolchain-maintainer to update and verify this repository toolchain."
