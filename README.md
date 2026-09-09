@@ -135,6 +135,22 @@ pandoc README.md -o README.pdf --from markdown
 - [Pandoc User Guide](https://pandoc.org/MANUAL.html)
 - [Dev Containers Specification](https://containers.dev/)
 
+## Agent Skills
+
+This repository publishes two skills for coding agents:
+
+- [`typst-dev-container`](./skills/typst-dev-container/SKILL.md) configures and
+  verifies reproducible Typst and Pandoc workspaces with the published image.
+- [`typst-toolchain-maintainer`](./skills/typst-toolchain-maintainer/SKILL.md)
+  maintains the repository's buildable, multi-architecture version matrix.
+
+List or install them with the [skills CLI](https://skills.sh/):
+
+```bash
+npx skills add 1solomonwakhungu/typst-dev-container --list
+npx skills add 1solomonwakhungu/typst-dev-container
+```
+
 ## License
 
 MIT License — see [LICENSE](./LICENSE) for details.
