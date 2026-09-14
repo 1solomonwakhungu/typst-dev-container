@@ -1,6 +1,6 @@
 ---
-name: typst-dev-container
-description: Configure and use the 1solomonwakhungu Typst and Pandoc Dev Container for reproducible document work. Use when a project needs a containerized Typst workspace, VS Code Dev Containers or Codespaces setup, Pandoc conversion, compilation checks, or container-specific troubleshooting.
+name: typst-devcontainer-pandoc-setup
+description: Sets up and verifies containerized Typst and Pandoc document environments using the published multi-architecture Docker image ghcr.io/1solomonwakhungu/typst-dev-container/typst. Use when setting up a Typst dev container or devcontainer, configuring VS Code Dev Containers or GitHub Codespaces, converting Markdown or LaTeX with Pandoc, compiling Typst to PDF, pinning reproducible document builds, or troubleshooting container image pulls and compiles.
 ---
 
 # Typst Dev Container

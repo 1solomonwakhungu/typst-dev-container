@@ -1,5 +1,7 @@
 # Typst + Pandoc Dev Container
 
+[![skills.sh](https://skills.sh/b/1solomonwakhungu/typst-dev-container)](https://skills.sh/1solomonwakhungu/typst-dev-container)
+
 **Reproducible, containerized Typst and Pandoc toolchain** — No installation hassles. Write markup, compile PDFs, convert documents with a single `git clone` and "Reopen in Container."
 
 ![Typst Dev Container Header](./assets/header.png "Pre-configured development environment for Typst document creation and PDF generation")
@@ -137,18 +139,22 @@ pandoc README.md -o README.pdf --from markdown
 
 ## Agent Skills
 
-This repository publishes two skills for coding agents:
+This repository publishes two skills for coding agents, each with a different
+job:
 
-- [`typst-dev-container`](./skills/typst-dev-container/SKILL.md) configures and
-  verifies reproducible Typst and Pandoc workspaces with the published image.
-- [`typst-toolchain-maintainer`](./skills/typst-toolchain-maintainer/SKILL.md)
-  maintains the repository's buildable, multi-architecture version matrix.
+- [`typst-devcontainer-pandoc-setup`](./skills/typst-devcontainer-pandoc-setup/SKILL.md)
+  — for document work: sets up and verifies a containerized Typst + Pandoc
+  workspace (VS Code Dev Containers, GitHub Codespaces, Docker), converts with
+  Pandoc, and compiles Typst to PDF.
+- [`typst-toolchain-version-updater`](./skills/typst-toolchain-version-updater/SKILL.md)
+  — for maintaining this repository: updates the buildable Typst, Rust, and
+  Pandoc version matrix and the GitHub Actions publishing workflow.
 
-List or install them with the [skills CLI](https://skills.sh/):
+Install them with the [skills CLI](https://skills.sh/):
 
 ```bash
-npx skills add 1solomonwakhungu/typst-dev-container --list
-npx skills add 1solomonwakhungu/typst-dev-container
+npx skills add https://github.com/1solomonwakhungu/typst-dev-container --skill typst-devcontainer-pandoc-setup
+npx skills add https://github.com/1solomonwakhungu/typst-dev-container --skill typst-toolchain-version-updater
 ```
 
 ## License
