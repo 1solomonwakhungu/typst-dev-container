@@ -1,0 +1,20 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Using the environment",
+      "description": "Set up and verify containerized Typst + Pandoc workspaces for document work.",
+      "skills": [
+        "typst-devcontainer-pandoc-setup"
+      ]
+    },
+    {
+      "title": "Maintaining the toolchain",
+      "description": "Keep this repository's buildable Typst, Rust, and Pandoc version matrix up to date.",
+      "skills": [
+        "typst-toolchain-version-updater"
+      ]
+    }
+  ]
+}

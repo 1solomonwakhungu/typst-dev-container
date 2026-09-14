@@ -1,6 +1,6 @@
 ---
-name: typst-toolchain-maintainer
-description: Maintain the buildable Typst, Rust, and Pandoc version matrix in 1solomonwakhungu/typst-dev-container and compatible forks. Use for scheduled toolchain updates, release-asset lag, multi-architecture image failures, or changes to the repository's updater and container publishing workflow.
+name: typst-toolchain-version-updater
+description: Updates the Typst, Rust, and Pandoc version matrix in 1solomonwakhungu/typst-dev-container and compatible forks, keeping every container build buildable. Use when bumping the Typst version, updating the Rust or Pandoc version matrix, fixing a multi-architecture container build, running scheduled toolchain updates, handling release-asset lag, or editing the GitHub Actions updater and image publishing workflow.
 ---
 
 # Typst Toolchain Maintainer

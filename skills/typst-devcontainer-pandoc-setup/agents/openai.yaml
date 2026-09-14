@@ -1,0 +1,4 @@
+interface:
+  display_name: "Typst Devcontainer + Pandoc Setup"
+  short_description: "Set up containerized Typst + Pandoc workspaces"
+  default_prompt: "Use $typst-devcontainer-pandoc-setup to configure this project for reproducible Typst and Pandoc work."
