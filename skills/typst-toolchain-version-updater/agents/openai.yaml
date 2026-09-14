@@ -1,0 +1,4 @@
+interface:
+  display_name: "Typst Toolchain Version Updater"
+  short_description: "Update the buildable Typst version matrix safely"
+  default_prompt: "Use $typst-toolchain-version-updater to update and verify this repository toolchain."
