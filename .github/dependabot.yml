@@ -1,0 +1,32 @@
+version: 2
+updates:
+  # Workflows plus the smoke-test composite action, which Dependabot only
+  # scans when its directory is listed.
+  - package-ecosystem: github-actions
+    directories:
+      - /
+      - /.github/actions/smoke-test
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Dev Container Features (e.g. docker-in-docker) in the repo's own
+  # devcontainer and the published template.
+  - package-ecosystem: devcontainers
+    directories:
+      - /
+      - /src/typst
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+
+  # No docker entry: src/typst/Dockerfile's base image (rust:${RUST_VERSION})
+  # and the Typst/Pandoc versions in docker-bake.hcl are bumped together by
+  # the Update Typst Toolchain workflow. A Dependabot docker update would
+  # race it and could desync the Dockerfile default from the bake matrix.
