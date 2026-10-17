@@ -15,6 +15,12 @@ on:
       - ".github/workflows/containers.yaml"
   workflow_dispatch:
 
+# Pushes to main that land close together would otherwise push the same tags
+# at once. Queue them so the newest commit is always the last to publish.
+concurrency:
+  group: containers-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build-push-typst:
     runs-on: ubuntu-latest
