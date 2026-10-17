@@ -43,12 +43,16 @@ This container solves it by providing a **ready-to-use, reproducible environment
 ## Included Versions
 
 This container bundles:
-- **Typst**: 0.15.1, 0.15.0, 0.14.2 (latest stable)
-- **Pandoc**: 3.10.2
-- **Rust**: 1.97.1
-- **Base image**: Debian 11 (Bullseye)
+<!-- toolchain-versions:start -->
+- **Typst**: 0.15.1 (`latest`), 0.15.0, 0.14.2
+- **Pandoc**: 3.11
+- **Rust**: 1.98.0
+- **Base image**: `rust:1.98.0` (Debian 13 trixie)
+<!-- toolchain-versions:end -->
 
-See [STATUS.md](./STATUS.md) for version details and release notes.
+Each Typst version is published as its own tag, for example
+`ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.15.0`. The list above is
+rewritten by the toolchain updater, so it matches `images/typst/docker-bake.hcl`.
 
 ## Why This Is Better Than Manual Setup
 
@@ -119,8 +123,8 @@ pandoc README.md -o README.pdf --from markdown
 ## Troubleshooting
 
 ### Container fails to build
-- **Ensure Docker is running** and has sufficient disk space (minimum 2GB)
-- **Pull latest image**: `docker pull mcr.microsoft.com/devcontainers/javascript-node:1-18-bullseye`
+- **Ensure Docker is running** and has enough free disk space (at least 3 GB)
+- **Pull the latest image**: `docker pull ghcr.io/1solomonwakhungu/typst-dev-container/typst:latest`
 - **Check logs**: Open the "Remote" output panel in VS Code for detailed error messages
 
 ### `typst` or `pandoc` command not found
@@ -128,7 +132,7 @@ pandoc README.md -o README.pdf --from markdown
 - **Re-open container**: Close and reopen the workspace in the container
 
 ### Slow first startup
-- **First build pulls ~500MB image** — subsequent starts are instant
+- **The first start pulls about 670 MB** (compressed, linux/amd64), mostly the Rust base image. Later starts reuse the cached image
 - **Network speed matters** — faster internet = faster initial setup
 
 ## Learn More

@@ -1,6 +1,17 @@
 name: "Release Dev Container Templates & Generate Documentation"
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/typst/devcontainer-template.json"
   workflow_dispatch:
+
+# Two pushes in quick succession must not publish or open docs pull requests
+# at the same time.
+concurrency:
+  group: release-templates
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -18,6 +29,10 @@ jobs:
         with:
           publish-templates: "true"
           base-path-to-templates: "./src"
+          # The default namespace is <owner>/<repo>, which would publish the
+          # `typst` template to the same ghcr.io path as the `typst` image and
+          # overwrite it. Keep templates under their own namespace.
+          templates-namespace: "1solomonwakhungu/typst-dev-container/templates"
           generate-docs: "true"
 
         env:
@@ -37,11 +52,11 @@ jobs:
           git config pull.rebase false
 
           branch=automated-documentation-update-$GITHUB_RUN_ID
-          git checkout -b $branch
+          git checkout -b "$branch"
           message='Automated documentation update'
 
           # Add / update and commit
-          git add */**/README.md
+          git add -- src/*/README.md
           git commit -m 'Automated documentation update [skip ci]' || export NO_UPDATES=true
 
           # Push

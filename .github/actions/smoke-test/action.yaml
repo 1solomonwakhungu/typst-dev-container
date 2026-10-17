@@ -1,4 +1,5 @@
 name: 'Smoke test'
+description: 'Build a Dev Container Template with its default options and run its tests'
 inputs:
   template:
     description: 'Template to test'

@@ -1,15 +1,15 @@
 {
     "id": "typst",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "name": "Typst Dev Container",
-    "description": "A Template to create a Typst project",
-    "documentationURL": "https://github.com/devcontainers/template-starter/tree/main/src/typst",
+    "description": "Typst and Pandoc on a Rust base image, with the Tinymist extension for VS Code",
+    "documentationURL": "https://github.com/1solomonwakhungu/typst-dev-container/tree/main/src/typst",
     "publisher": "Solomon Wakhungu <1solomonwakhungu@users.noreply.github.com>",
-    "licenseURL": "https://github.com/devcontainers/template-starter/blob/main/LICENSE",
+    "licenseURL": "https://github.com/1solomonwakhungu/typst-dev-container/blob/main/LICENSE",
     "options": {
         "typstVersion": {
             "type": "string",
-            "description": "Typst version:",
+            "description": "Typst version (image tag):",
             "proposals": [
                 "latest",
                 "0.15.1",

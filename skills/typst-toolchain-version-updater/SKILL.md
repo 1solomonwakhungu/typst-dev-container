@@ -31,8 +31,8 @@ published release does not break the scheduled update.
 Before editing, read:
 
 - `.github/scripts/update-toolchain.py`
-- `src/typst/Dockerfile`
-- `src/typst/docker-bake.hcl`
+- `images/typst/Dockerfile`
+- `images/typst/docker-bake.hcl`
 - `src/typst/devcontainer-template.json`
 - the workflows that call the updater or publish images
 
@@ -54,7 +54,7 @@ Use the narrowest checks that cover the edit:
 
 ```bash
 python3 .github/scripts/update-toolchain.py
-docker buildx bake --print -f src/typst/docker-bake.hcl typst
+docker buildx bake --print -f images/typst/docker-bake.hcl typst
 ```
 
 When Docker is available, build at least one target. For changes to architecture
