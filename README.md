@@ -45,9 +45,9 @@ This container solves it by providing a **ready-to-use, reproducible environment
 This container bundles:
 <!-- toolchain-versions:start -->
 - **Typst**: 0.15.1 (`latest`), 0.15.0, 0.14.2
-- **Pandoc**: 3.11
-- **Rust**: 1.98.0
-- **Base image**: `rust:1.98.0` (Debian 13 trixie)
+- **Pandoc**: 3.12.1
+- **Rust**: 1.99.1
+- **Base image**: `rust:1.99.1` (Debian 13 trixie)
 <!-- toolchain-versions:end -->
 
 Each Typst version is published as its own tag, for example

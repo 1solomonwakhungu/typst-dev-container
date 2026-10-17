@@ -1,6 +1,6 @@
 {
     "id": "typst",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "name": "Typst Dev Container",
     "description": "Typst and Pandoc on a Rust base image, with the Tinymist extension for VS Code",
     "documentationURL": "https://github.com/1solomonwakhungu/typst-dev-container/tree/main/src/typst",
