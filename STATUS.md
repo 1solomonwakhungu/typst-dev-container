@@ -4,7 +4,7 @@
 - Completed: the toolchain updater now adopts a release only once the
   artifacts the image builds from are published, so a Docker Hub or upstream
   upload lag no longer breaks the scheduled update.
-- Current versions: Typst 0.15.1, 0.15.0, and 0.14.2; Rust 1.98.0; Pandoc 3.11.
+- Current versions: Typst 0.15.1, 0.15.0, and 0.14.2; Rust 1.99.1; Pandoc 3.12.1 (template 1.0.2).
 - Completed (2026-10-16): hardened CI and fixed template publishing.
   - `containers.yaml` publishes images only from `main`.
   - `test-pr.yaml` builds the image from the pull request (amd64) and smoke
