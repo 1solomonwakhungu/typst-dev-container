@@ -2,7 +2,11 @@
   "name": "Typst Dev Container",
   "image": "ghcr.io/1solomonwakhungu/typst-dev-container/typst:latest",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:4": {}
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
+      // The image is Debian 13 trixie, which has no moby packages. The
+      // feature refuses to install with moby enabled there, so use Docker CE.
+      "moby": false
+    }
   },
   "customizations": {
     "vscode": {
