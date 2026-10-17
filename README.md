@@ -52,7 +52,7 @@ This container bundles:
 
 Each Typst version is published as its own tag, for example
 `ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.15.0`. The list above is
-rewritten by the toolchain updater, so it matches `src/typst/docker-bake.hcl`.
+rewritten by the toolchain updater, so it matches `images/typst/docker-bake.hcl`.
 
 ## Why This Is Better Than Manual Setup
 

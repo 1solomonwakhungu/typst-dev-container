@@ -14,6 +14,7 @@ jobs:
           filters: |
             typst:
               - "src/typst/**"
+              - "images/typst/**"
               - "test/typst/**"
               - "test/test-utils/**"
               - ".github/actions/smoke-test/**"
@@ -44,7 +45,7 @@ jobs:
       - name: Build image from this pull request
         uses: docker/bake-action@v7
         with:
-          source: "./src/${{ matrix.templates }}"
+          source: "./images/${{ matrix.templates }}"
           load: true
           set: |
             *.platform=linux/amd64

@@ -17,6 +17,12 @@
     rewrites the README versions block, and has a `--dry-run` flag. Its pull
     requests use the `TOOLCHAIN_PR_TOKEN` secret when set (see CONTRIBUTING.md).
   - Template metadata, `src/typst/README.md`, README, and CONTRIBUTING fixed.
+  - Review follow-up: the `Dockerfile` and `docker-bake.hcl` moved from
+    `src/typst/` to `images/typst/`. `devcontainer templates apply` copies
+    every file in the template folder into the user's project, so the old
+    layout would have dropped (or overwritten) a `Dockerfile` there. Image
+    builds now trigger on `images/typst/**`, so template docs changes no
+    longer republish the images. `release.yaml` runs one at a time.
 - Next: add a `TOOLCHAIN_PR_TOKEN` secret so toolchain pull requests run CI
   without manual approval. Check that the new `templates/typst` package on
   ghcr.io is public after the first release.

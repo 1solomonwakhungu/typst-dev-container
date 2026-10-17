@@ -54,11 +54,13 @@ To contribute, you'll need:
 
 ### Understanding the Template Structure
 
-- **`src/typst/`**: Main template directory containing:
+- **`src/typst/`**: The Dev Container Template. Everything in this folder except `README.md`, `NOTES.md`, and `devcontainer-template.json` is copied into the user's project when the template is applied, so keep build files out of it.
+  - `.devcontainer/devcontainer.json`: Dev container configuration
+  - `devcontainer-template.json`: Template metadata and options
+
+- **`images/typst/`**: The image the template uses, published to `ghcr.io/1solomonwakhungu/typst-dev-container/typst`:
   - `Dockerfile`: Container image definition
   - `docker-bake.hcl`: Multi-version build configuration
-  - `devcontainer.json`: Dev container configuration
-  - `devcontainer-template.json`: Template metadata and options
 
 - **`test/`**: Test utilities and test scripts for template validation
   - `test/typst/test.sh`: Tests specific to the Typst template
@@ -78,10 +80,10 @@ If you need to update the Dockerfile or build configuration:
 
 ```bash
 # Edit the Dockerfile
-vim src/typst/Dockerfile
+vim images/typst/Dockerfile
 
 # Or update build matrix
-vim src/typst/docker-bake.hcl
+vim images/typst/docker-bake.hcl
 ```
 
 #### 2. Adding or Updating Test Cases
@@ -100,7 +102,7 @@ cat test/typst/test.sh
 
 The repository maintains support for the three latest stable Typst releases with compatible versions of Rust and Pandoc.
 
-- View current versions in `src/typst/docker-bake.hcl`
+- View current versions in `images/typst/docker-bake.hcl`
 - Every Monday, `update-toolchain.yaml` runs `.github/scripts/update-toolchain.py` and opens a pull request if anything changed. The script rewrites `docker-bake.hcl`, the `Dockerfile`, the template option list, and the versions block in `README.md`, and bumps the template `version` patch number.
 - Preview what the script would change with `python3 .github/scripts/update-toolchain.py --dry-run` (set `GH_TOKEN` to avoid GitHub API rate limits)
 
@@ -133,28 +135,28 @@ Before submitting a pull request, verify your changes:
 
 ```bash
 # Check Dockerfile syntax and HCL configuration
-docker buildx bake --print -f src/typst/docker-bake.hcl typst
+docker buildx bake --print -f images/typst/docker-bake.hcl typst
 ```
 
 ### 3. Build Specific Images
 
 ```bash
 # Build a specific Typst version
-docker buildx bake -f src/typst/docker-bake.hcl typst-v0-15-1
+docker buildx bake -f images/typst/docker-bake.hcl typst-v0-15-1
 
 # Build for specific platform
-docker buildx bake --set="typst.platform=linux/amd64" -f src/typst/docker-bake.hcl typst
+docker buildx bake --set="typst.platform=linux/amd64" -f images/typst/docker-bake.hcl typst
 ```
 
 ### 4. Manual Testing in Container
 
 ```bash
 # Start a test container with your changes
-docker build -f src/typst/Dockerfile \
+docker build -f images/typst/Dockerfile \
   --build-arg TYPST_VERSION=0.15.1 \
   --build-arg RUST_VERSION=1.98.0 \
   --build-arg PANDOC_VERSION=3.11 \
-  -t test-typst src/typst
+  -t test-typst images/typst
 
 docker run --rm -it test-typst bash
 
@@ -196,7 +198,7 @@ Updated Dockerfile to include additional Rust tools for development.
 
 ## Testing
 - ✅ Ran smoke tests locally: `./.github/actions/smoke-test/build.sh typst` and `./.github/actions/smoke-test/test.sh typst`
-- ✅ Built image successfully: `docker buildx bake -f src/typst/docker-bake.hcl typst`
+- ✅ Built image successfully: `docker buildx bake -f images/typst/docker-bake.hcl typst`
 - ✅ Verified tools in container: `rustc --version`, `cargo fmt --version`, `cargo clippy --version`
 
 ## Related Issues

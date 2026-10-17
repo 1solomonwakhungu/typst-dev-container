@@ -26,7 +26,7 @@ updates:
     commit-message:
       prefix: chore
 
-  # No docker entry: src/typst/Dockerfile's base image (rust:${RUST_VERSION})
+  # No docker entry: images/typst/Dockerfile's base image (rust:${RUST_VERSION})
   # and the Typst/Pandoc versions in docker-bake.hcl are bumped together by
   # the Update Typst Toolchain workflow. A Dependabot docker update would
   # race it and could desync the Dockerfile default from the bake matrix.

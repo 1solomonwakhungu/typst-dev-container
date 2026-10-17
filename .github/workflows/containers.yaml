@@ -3,14 +3,14 @@ name: "Typst: Build & Publish to ghcr.io"
 on:
   pull_request:
     paths:
-      - "src/typst/**"
+      - "images/typst/**"
       - ".devcontainer/**"
       - ".github/workflows/containers.yaml"
   push:
     branches:
       - main
     paths:
-      - "src/typst/**"
+      - "images/typst/**"
       - ".devcontainer/**"
       - ".github/workflows/containers.yaml"
   workflow_dispatch:
@@ -45,5 +45,5 @@ jobs:
         id: bake
         uses: docker/bake-action@v7
         with:
-          source: "./src/typst"
+          source: "./images/typst"
           push: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}

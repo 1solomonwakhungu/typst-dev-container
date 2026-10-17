@@ -17,7 +17,7 @@ Brief description of the changes in this pull request.
 
 ## Testing
 - [ ] Ran smoke tests locally: `./.github/actions/smoke-test/build.sh typst` and `./.github/actions/smoke-test/test.sh typst`
-- [ ] Verified build configuration: `docker buildx bake --print -f src/typst/docker-bake.hcl typst`
+- [ ] Verified build configuration: `docker buildx bake --print -f images/typst/docker-bake.hcl typst`
 - [ ] Tested in container (if applicable)
 - [ ] All tests pass
 

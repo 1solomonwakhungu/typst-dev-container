@@ -11,7 +11,7 @@ Typst and Pandoc on a Rust base image, with the Tinymist extension for VS Code
 
 ## What the image contains
 
-The template uses a prebuilt image, `ghcr.io/1solomonwakhungu/typst-dev-container/typst`, built from the [`Dockerfile`](https://github.com/1solomonwakhungu/typst-dev-container/blob/main/src/typst/Dockerfile) in this folder. Each image has:
+The template uses a prebuilt image, `ghcr.io/1solomonwakhungu/typst-dev-container/typst`, built from the [`Dockerfile`](https://github.com/1solomonwakhungu/typst-dev-container/blob/main/images/typst/Dockerfile) in `images/typst`. Each image has:
 
 - the [Typst](https://typst.app/) CLI, installed from the static musl release build
 - [Pandoc](https://pandoc.org/), for converting LaTeX, Markdown, or Word documents to and from Typst

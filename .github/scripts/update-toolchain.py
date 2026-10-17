@@ -12,8 +12,8 @@ from pathlib import Path
 
 API_ROOT = "https://api.github.com/repos"
 DOCKER_HUB_ROOT = "https://hub.docker.com/v2/repositories/library"
-BAKE_FILE = Path("src/typst/docker-bake.hcl")
-DOCKERFILE = Path("src/typst/Dockerfile")
+BAKE_FILE = Path("images/typst/docker-bake.hcl")
+DOCKERFILE = Path("images/typst/Dockerfile")
 TEMPLATE_FILE = Path("src/typst/devcontainer-template.json")
 README_FILE = Path("README.md")
 README_START = "<!-- toolchain-versions:start -->"

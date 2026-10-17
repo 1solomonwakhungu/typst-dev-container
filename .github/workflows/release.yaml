@@ -7,6 +7,12 @@ on:
       - "src/typst/devcontainer-template.json"
   workflow_dispatch:
 
+# Two pushes in quick succession must not publish or open docs pull requests
+# at the same time.
+concurrency:
+  group: release-templates
+  cancel-in-progress: false
+
 jobs:
   deploy:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -46,11 +52,11 @@ jobs:
           git config pull.rebase false
 
           branch=automated-documentation-update-$GITHUB_RUN_ID
-          git checkout -b $branch
+          git checkout -b "$branch"
           message='Automated documentation update'
 
           # Add / update and commit
-          git add */**/README.md
+          git add -- src/*/README.md
           git commit -m 'Automated documentation update [skip ci]' || export NO_UPDATES=true
 
           # Push
