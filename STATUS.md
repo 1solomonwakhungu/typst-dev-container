@@ -26,3 +26,8 @@
 - Next: add a `TOOLCHAIN_PR_TOKEN` secret so toolchain pull requests run CI
   without manual approval. Check that the new `templates/typst` package on
   ghcr.io is public after the first release.
+- Completed (2026-10-17): merged #16, the toolchain update #12 (Rust 1.99.1,
+  Pandoc 3.12.1, template 1.0.2), and docker-in-docker 4.1.3 (#15). The repo's
+  own `.devcontainer` sets `"moby": false`, because the feature refuses to
+  install Moby on the trixie-based image. Image builds on `main` are queued so
+  overlapping pushes cannot publish out of order.
