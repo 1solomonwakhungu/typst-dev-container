@@ -3,14 +3,14 @@ name: "Typst: Build & Publish to ghcr.io"
 on:
   pull_request:
     paths:
-      - "src/typst/**"
+      - "images/typst/**"
       - ".devcontainer/**"
       - ".github/workflows/containers.yaml"
   push:
     branches:
       - main
     paths:
-      - "src/typst/**"
+      - "images/typst/**"
       - ".devcontainer/**"
       - ".github/workflows/containers.yaml"
   workflow_dispatch:
@@ -31,8 +31,10 @@ jobs:
       - name: "Setup Docker `buildx`"
         uses: "docker/setup-buildx-action@v4"
 
+      # Only main publishes. A manual dispatch on another branch still builds,
+      # but must not overwrite the tags that users pull.
       - name: "Login to `ghcr.io`"
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
         uses: "docker/login-action@v4"
         with:
           registry: "ghcr.io"
@@ -43,5 +45,5 @@ jobs:
         id: bake
         uses: docker/bake-action@v7
         with:
-          source: "./src/typst"
-          push: ${{ github.event_name != 'pull_request' }}
+          source: "./images/typst"
+          push: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
