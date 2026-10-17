@@ -1,5 +1,10 @@
 name: "Release Dev Container Templates & Generate Documentation"
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/typst/devcontainer-template.json"
   workflow_dispatch:
 
 jobs:
@@ -18,6 +23,10 @@ jobs:
         with:
           publish-templates: "true"
           base-path-to-templates: "./src"
+          # The default namespace is <owner>/<repo>, which would publish the
+          # `typst` template to the same ghcr.io path as the `typst` image and
+          # overwrite it. Keep templates under their own namespace.
+          templates-namespace: "1solomonwakhungu/typst-dev-container/templates"
           generate-docs: "true"
 
         env:

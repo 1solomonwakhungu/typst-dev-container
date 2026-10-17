@@ -12,7 +12,12 @@ jobs:
         id: filter
         with:
           filters: |
-            typst: ./**/typst/**
+            typst:
+              - "src/typst/**"
+              - "test/typst/**"
+              - "test/test-utils/**"
+              - ".github/actions/smoke-test/**"
+              - ".github/workflows/test-pr.yaml"
 
   test:
     needs: [detect-changes]
@@ -21,12 +26,28 @@ jobs:
     # requests that touch no template still get a green check.
     if: ${{ needs.detect-changes.outputs.templates != '[]' }}
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       matrix:
         templates: ${{ fromJSON(needs.detect-changes.outputs.templates) }}
     steps:
       - uses: actions/checkout@v7
+
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@v4
+
+      # The template's devcontainer.json points at the published image. Build
+      # the image from this pull request and load it under the same tags, so
+      # the smoke test exercises the change instead of what is already on
+      # ghcr.io. The devcontainer CLI uses a local image before pulling one.
+      # Only amd64 is built here: the runner cannot load a multi-platform
+      # image, and containers.yaml already builds arm64.
+      - name: Build image from this pull request
+        uses: docker/bake-action@v7
+        with:
+          source: "./src/${{ matrix.templates }}"
+          load: true
+          set: |
+            *.platform=linux/amd64
 
       - name: Smoke test for '${{ matrix.templates }}'
         id: smoke_test

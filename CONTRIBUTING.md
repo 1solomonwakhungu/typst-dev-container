@@ -66,9 +66,9 @@ To contribute, you'll need:
 
 - **`.github/workflows/`**: Automated workflows:
   - `test-pr.yaml`: Smoke tests on pull requests
-  - `update-toolchain.yaml`: Weekly automated version updates
-  - `containers.yaml`: Docker image building and publishing
-  - `release.yaml`: Template publishing to Dev Containers registry
+  - `update-toolchain.yaml`: Weekly check for new toolchain versions, opened as a pull request
+  - `containers.yaml`: Docker image building, and publishing from `main`
+  - `release.yaml`: Template publishing to `ghcr.io/1solomonwakhungu/typst-dev-container/templates/typst`
 
 ### Common Development Tasks
 
@@ -101,8 +101,19 @@ cat test/typst/test.sh
 The repository maintains support for the three latest stable Typst releases with compatible versions of Rust and Pandoc.
 
 - View current versions in `src/typst/docker-bake.hcl`
-- Versions are automatically updated weekly via `update-toolchain.yaml`
-- Manual updates require modifying the `matrix` in `docker-bake.hcl`
+- Every Monday, `update-toolchain.yaml` runs `.github/scripts/update-toolchain.py` and opens a pull request if anything changed. The script rewrites `docker-bake.hcl`, the `Dockerfile`, the template option list, and the versions block in `README.md`, and bumps the template `version` patch number.
+- Preview what the script would change with `python3 .github/scripts/update-toolchain.py --dry-run` (set `GH_TOKEN` to avoid GitHub API rate limits)
+
+#### 4. Letting toolchain pull requests run CI
+
+Pull requests opened with the default `GITHUB_TOKEN` do not start other workflows, so the checks on the updater's pull request sit at "action required" until a maintainer approves them. To avoid that, add a repository secret named `TOOLCHAIN_PR_TOKEN`. The workflow uses it when it exists and falls back to `GITHUB_TOKEN` otherwise.
+
+Use either of these:
+
+- **Fine-grained personal access token.** Under *Settings → Developer settings → Personal access tokens → Fine-grained tokens*, create a token limited to this repository with *Contents: Read and write* and *Pull requests: Read and write*. Set an expiry and put a reminder in your calendar to rotate it.
+- **GitHub App token.** Create a GitHub App with the same two permissions and install it on this repository. Installation tokens expire after an hour, so they cannot be stored as `TOOLCHAIN_PR_TOKEN`. Instead, store the App ID and private key as secrets, add an `actions/create-github-app-token` step before the pull request step, and pass that step's `token` output to `peter-evans/create-pull-request`. App tokens are not tied to a person's account, which suits long-lived automation.
+
+For the personal access token, add the secret under *Settings → Secrets and variables → Actions → New repository secret*.
 
 ## Targeted Verification
 
@@ -141,9 +152,9 @@ docker buildx bake --set="typst.platform=linux/amd64" -f src/typst/docker-bake.h
 # Start a test container with your changes
 docker build -f src/typst/Dockerfile \
   --build-arg TYPST_VERSION=0.15.1 \
-  --build-arg RUST_VERSION=1.97.1 \
-  --build-arg PANDOC_VERSION=3.10.2 \
-  -t test-typst .
+  --build-arg RUST_VERSION=1.98.0 \
+  --build-arg PANDOC_VERSION=3.11 \
+  -t test-typst src/typst
 
 docker run --rm -it test-typst bash
 
@@ -181,7 +192,7 @@ Updated Dockerfile to include additional Rust tools for development.
 
 ## Changes
 - Added `cargo-fmt` and `cargo-clippy` to Dockerfile
-- Updated toolchain version to 1.97.1
+- Updated toolchain version to 1.98.0
 
 ## Testing
 - ✅ Ran smoke tests locally: `./.github/actions/smoke-test/build.sh typst` and `./.github/actions/smoke-test/test.sh typst`
@@ -256,7 +267,7 @@ What actually happens
 ### Typst Support Policy
 - The repository maintains dev container templates for the **three most recent stable Typst releases**
 - Toolchain versions (Rust, Pandoc) are updated to match compatibility requirements
-- New template versions are published weekly when updates are available
+- The updater checks for new releases weekly and opens a pull request. Once a maintainer merges it, the new images are built and the new template version is published automatically
 
 ## Commit Message Format
 

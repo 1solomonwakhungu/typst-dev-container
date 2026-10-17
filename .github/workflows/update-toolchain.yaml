@@ -36,11 +36,16 @@ jobs:
       - name: Create update pull request
         uses: peter-evans/create-pull-request@v8
         with:
+          # Pull requests opened with GITHUB_TOKEN do not trigger CI until a
+          # maintainer approves the runs. A TOOLCHAIN_PR_TOKEN secret (a
+          # fine-grained PAT) avoids that; see CONTRIBUTING.md.
+          token: ${{ secrets.TOOLCHAIN_PR_TOKEN || secrets.GITHUB_TOKEN }}
           branch: automated/update-typst-toolchain
           delete-branch: true
           commit-message: "build: update Typst toolchain"
           title: "build: update Typst toolchain"
           body: |
             Automated update of the three newest stable Typst releases and their Rust/Pandoc toolchain.
+            The template version is bumped, so merging this publishes a new template release.
 
             This pull request was created by the scheduled `Update Typst Toolchain` workflow.
