@@ -45,7 +45,7 @@ This container solves it by providing a **ready-to-use, reproducible environment
 This container bundles:
 <!-- toolchain-versions:start -->
 - **Typst**: 0.15.1 (`latest`), 0.15.0, 0.14.2
-- **Pandoc**: 3.12.1
+- **Pandoc**: 3.13
 - **Rust**: 1.99.1
 - **Base image**: `rust:1.99.1` (Debian 13 trixie)
 <!-- toolchain-versions:end -->
