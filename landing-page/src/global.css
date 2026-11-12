@@ -1,0 +1,49 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--brand-body-fontFamily);
+  background-color: var(--brand-color-canvas-default);
+  color: var(--brand-color-text-default);
+}
+
+/* Anchor targets sit below the sticky navigation bar. */
+[id] {
+  scroll-margin-block-start: var(--base-size-80);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Drop every animation and transition, including the ones Primer Brand
+     applies internally, so nothing moves for visitors who opt out. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
