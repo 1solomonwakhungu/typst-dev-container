@@ -1,7 +1,9 @@
-import { Grid, Heading, InlineLink, Section, SectionIntro, Tabs, Text } from '@primer/react-brand'
+import { Heading, InlineLink } from '@primer/react-brand'
 import type { ReactNode } from 'react'
 
 import { CodeBlock, InlineCode } from '../components/CodeBlock'
+import { Body, PageSection } from '../components/Layout'
+import { Tabs } from '../components/Tabs'
 import { CLONE_URL, CODESPACES_URL, IMAGE, REPO, TEMPLATE_ID } from '../lib/site'
 import styles from '../page.module.css'
 
@@ -19,171 +21,171 @@ const minimalConfig = `{
   }
 }`
 
-function Steps({ children }: { children: ReactNode }) {
-  return <ol className={styles.steps}>{children}</ol>
-}
-
-function Step({ title, children }: { title: string; children: ReactNode }) {
+/** One step per row: the instruction on the left half, its code on the right half. */
+function Step({ title, code, children }: { title: string; code?: ReactNode; children?: ReactNode }) {
   return (
-    <li className={styles.step}>
-      <Heading as="h3" size="subhead-large" className={styles.stepTitle}>
-        {title}
-      </Heading>
-      <div className={styles.stepBody}>{children}</div>
+    <li className={`${styles.split} ${styles.step}`}>
+      <div className={styles.stepText}>
+        <span aria-hidden className={styles.stepNumber} />
+        <Heading as="h3" size="subhead-large">
+          {title}
+        </Heading>
+        {children}
+      </div>
+      <div className={styles.stepCode}>{code}</div>
     </li>
   )
 }
 
-function P({ children }: { children: ReactNode }) {
+function Panel({ lead, children }: { lead: ReactNode; children: ReactNode }) {
   return (
-    <Text as="p" size="200" variant="muted">
-      {children}
-    </Text>
+    <>
+      <div className={styles.panelLead}>
+        <Body>{lead}</Body>
+      </div>
+      <ol className={styles.steps}>{children}</ol>
+    </>
   )
 }
 
 function HelloSteps() {
   return (
     <>
-      <Step title="Write a document">
-        <P>
-          In the container terminal, create <InlineCode>hello.typ</InlineCode>:
-        </P>
-        <CodeBlock title="hello.typ" lang="plain" code={helloTyp} />
+      <Step title="Write a document" code={<CodeBlock title="hello.typ" lang="plain" code={helloTyp} />}>
+        <Body>
+          In the container terminal, create <InlineCode>hello.typ</InlineCode>.
+        </Body>
       </Step>
-      <Step title="Compile it">
-        <CodeBlock title="Terminal" code="typst compile hello.typ" />
-        <P>
+      <Step title="Compile it" code={<CodeBlock title="Terminal" code="typst compile hello.typ" />}>
+        <Body>
           <InlineCode>hello.pdf</InlineCode> appears next to the source file.
-        </P>
+        </Body>
       </Step>
     </>
   )
 }
 
+const tabs = [
+  {
+    id: 'vscode',
+    label: 'VS Code',
+    content: (
+      <Panel
+        lead={
+          <>
+            Needs VS Code or a compatible editor, the{' '}
+            <InlineLink href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">
+              Dev Containers extension
+            </InlineLink>{' '}
+            and Docker.
+          </>
+        }
+      >
+        <Step
+          title="Clone the repository and open it"
+          code={<CodeBlock title="Terminal" code={`git clone ${CLONE_URL}\ncode typst-dev-container`} />}
+        />
+        <Step title="Reopen in the container">
+          <Body>
+            Click <strong>Reopen in Container</strong> when VS Code offers it, or press{' '}
+            <kbd className={styles.kbd}>F1</kbd> and run <InlineCode>Dev Containers: Reopen in Container</InlineCode>
+            . The first start pulls the image.
+          </Body>
+        </Step>
+        <HelloSteps />
+      </Panel>
+    ),
+  },
+  {
+    id: 'codespaces',
+    label: 'Codespaces',
+    content: (
+      <Panel lead="Runs in the browser on GitHub Codespaces. No local Docker needed.">
+        <Step
+          title="Create a codespace from the repository"
+          code={<CodeBlock title="Terminal" code={`gh codespace create --repo ${REPO}`} />}
+        >
+          <Body>
+            Open <InlineLink href={CODESPACES_URL}>codespaces.new/{REPO}</InlineLink>, or use the GitHub CLI. The
+            codespace starts from the same dev container configuration as the local setup.
+          </Body>
+        </Step>
+        <HelloSteps />
+      </Panel>
+    ),
+  },
+  {
+    id: 'template',
+    label: 'Template',
+    content: (
+      <Panel lead="Add the container to a document project you already have. The repository publishes a Dev Container template for this.">
+        <Step
+          title="Apply the template"
+          code={
+            <CodeBlock
+              title="Terminal"
+              code={`devcontainer templates apply \\\n  --template-id ${TEMPLATE_ID} \\\n  --template-args '{"typstVersion": "latest"}'`}
+            />
+          }
+        >
+          <Body>
+            Run the Dev Container CLI from your project folder. Or in VS Code, run{' '}
+            <InlineCode>Dev Containers: Add Dev Container Configuration Files...</InlineCode>, choose{' '}
+            <strong>Show All Definitions</strong> and search for the template id.
+          </Body>
+        </Step>
+        <Step
+          title="Or write the config by hand"
+          code={<CodeBlock title=".devcontainer/devcontainer.json" lang="plain" code={minimalConfig} />}
+        >
+          <Body>
+            A minimal <InlineCode>.devcontainer/devcontainer.json</InlineCode> that uses the published image.
+          </Body>
+        </Step>
+        <Step title="Reopen the folder in the container" code={<CodeBlock title="Terminal" code="typst compile <file>.typ" />}>
+          <Body>
+            Then compile any <InlineCode>.typ</InlineCode> file.
+          </Body>
+        </Step>
+      </Panel>
+    ),
+  },
+  {
+    id: 'docker',
+    label: 'Docker',
+    content: (
+      <Panel
+        lead={
+          <>
+            No editor involved. The image sets <InlineCode>/workspace</InlineCode> as its working directory, so
+            mount your documents there.
+          </>
+        }
+      >
+        <Step title="Pull the image" code={<CodeBlock title="Terminal" code={`docker pull ${IMAGE}:latest`} />} />
+        <Step
+          title="Compile a file from the current folder"
+          code={
+            <CodeBlock
+              title="Terminal"
+              code={`docker run --rm -v "$PWD":/workspace \\\n  ${IMAGE}:latest \\\n  typst compile hello.typ`}
+            />
+          }
+        >
+          <Body>
+            The PDF is written back to the mounted folder. Swap <InlineCode>latest</InlineCode> for a numbered tag
+            to stay on one Typst version.
+          </Body>
+        </Step>
+      </Panel>
+    ),
+  },
+]
+
 export function QuickStart() {
   return (
-    <Section id="quick-start" paddingBlockStart="normal" paddingBlockEnd="normal">
-      <Grid>
-        <Grid.Column span={{ xsmall: 12, large: 9 }}>
-          
-            <SectionIntro align="start" fullWidth className={styles.intro}>
-              <SectionIntro.Heading as="h2" size="3">
-                Quick start
-              </SectionIntro.Heading>
-            </SectionIntro>
-          
-
-          <Tabs aria-label="Ways to start" variant="underline" align="start" className={styles.tabs}>
-            <Tabs.Item>VS Code</Tabs.Item>
-            <Tabs.Item>Codespaces</Tabs.Item>
-            <Tabs.Item>Your project</Tabs.Item>
-            <Tabs.Item>Docker</Tabs.Item>
-
-            <Tabs.Panel>
-              <div className={styles.panel}>
-                <P>
-                  Needs VS Code or a compatible editor, the{' '}
-                  <InlineLink href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">
-                    Dev Containers extension
-                  </InlineLink>{' '}
-                  and Docker.
-                </P>
-                <Steps>
-                  <Step title="Clone the repository and open it">
-                    <CodeBlock title="Terminal" code={`git clone ${CLONE_URL}\ncode typst-dev-container`} />
-                  </Step>
-                  <Step title="Reopen in the container">
-                    <P>
-                      Click <strong>Reopen in Container</strong> when VS Code offers it, or press{' '}
-                      <kbd className={styles.kbd}>F1</kbd> and run{' '}
-                      <InlineCode>Dev Containers: Reopen in Container</InlineCode>. The first start pulls the image.
-                    </P>
-                  </Step>
-                  <HelloSteps />
-                </Steps>
-              </div>
-            </Tabs.Panel>
-
-            <Tabs.Panel>
-              <div className={styles.panel}>
-                <P>Runs in the browser on GitHub Codespaces. No local Docker needed.</P>
-                <Steps>
-                  <Step title="Create a codespace from the repository">
-                    <P>
-                      Open <InlineLink href={CODESPACES_URL}>codespaces.new/{REPO}</InlineLink>, or use the GitHub
-                      CLI:
-                    </P>
-                    <CodeBlock title="Terminal" code={`gh codespace create --repo ${REPO}`} />
-                    <P>The codespace starts from the same dev container configuration as the local setup.</P>
-                  </Step>
-                  <HelloSteps />
-                </Steps>
-              </div>
-            </Tabs.Panel>
-
-            <Tabs.Panel>
-              <div className={styles.panel}>
-                <P>
-                  Add the container to a document project you already have. The repository publishes a Dev
-                  Container template for this.
-                </P>
-                <Steps>
-                  <Step title="Apply the template">
-                    <P>With the Dev Container CLI, from your project folder:</P>
-                    <CodeBlock
-                      title="Terminal"
-                      code={`devcontainer templates apply \\\n  --template-id ${TEMPLATE_ID} \\\n  --template-args '{"typstVersion": "latest"}'`}
-                    />
-                    <P>
-                      Or in VS Code, run{' '}
-                      <InlineCode>Dev Containers: Add Dev Container Configuration Files...</InlineCode>, choose{' '}
-                      <strong>Show All Definitions</strong> and search for the template id above.
-                    </P>
-                  </Step>
-                  <Step title="Or write the config by hand">
-                    <P>
-                      A minimal <InlineCode>.devcontainer/devcontainer.json</InlineCode> that uses the published
-                      image:
-                    </P>
-                    <CodeBlock title=".devcontainer/devcontainer.json" lang="plain" code={minimalConfig} />
-                  </Step>
-                  <Step title="Reopen the folder in the container">
-                    <P>
-                      Then compile any <InlineCode>.typ</InlineCode> file with{' '}
-                      <InlineCode>typst compile &lt;file&gt;.typ</InlineCode>.
-                    </P>
-                  </Step>
-                </Steps>
-              </div>
-            </Tabs.Panel>
-
-            <Tabs.Panel>
-              <div className={styles.panel}>
-                <P>
-                  No editor involved. The image sets <InlineCode>/workspace</InlineCode> as its working directory,
-                  so mount your documents there.
-                </P>
-                <Steps>
-                  <Step title="Pull the image">
-                    <CodeBlock title="Terminal" code={`docker pull ${IMAGE}:latest`} />
-                  </Step>
-                  <Step title="Compile a file from the current folder">
-                    <CodeBlock
-                      title="Terminal"
-                      code={`docker run --rm -v "$PWD":/workspace \\\n  ${IMAGE}:latest \\\n  typst compile hello.typ`}
-                    />
-                    <P>
-                      The PDF is written back to the mounted folder. Swap <InlineCode>latest</InlineCode> for a
-                      numbered tag to stay on one Typst version.
-                    </P>
-                  </Step>
-                </Steps>
-              </div>
-            </Tabs.Panel>
-          </Tabs>
-        </Grid.Column>
-      </Grid>
-    </Section>
+    <PageSection id="quick-start" title="Quick start">
+      <Tabs label="Ways to start" items={tabs} />
+    </PageSection>
   )
 }

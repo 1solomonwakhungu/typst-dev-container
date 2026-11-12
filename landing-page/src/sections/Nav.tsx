@@ -19,23 +19,25 @@ export function Nav() {
       <a href="#main" className={styles.skipLink}>
         Skip to content
       </a>
-      <div className={styles.navInner}>
+      <div className={`${styles.container} ${styles.navInner}`}>
         <a href="#top" className={styles.brand}>
-          <LogoMark width={28} height={28} />
+          <LogoMark width={18} height={22} />
           <span>
             typst<span className={styles.brandMuted}>-dev-container</span>
           </span>
         </a>
-        <nav aria-label="Sections" className={styles.navLinks}>
-          {links.map((link) => (
-            <a key={link.href} href={link.href} className={styles.navLink}>
-              {link.label}
-            </a>
-          ))}
-        </nav>
-        <Button as="a" href={REPO_URL} size="small" variant="secondary" leadingVisual={<MarkGithubIcon />} hasArrow={false}>
-          GitHub
-        </Button>
+        <div className={styles.navEnd}>
+          <nav aria-label="Sections" className={styles.navLinks}>
+            {links.map((link) => (
+              <a key={link.href} href={link.href} className={styles.navLink}>
+                {link.label}
+              </a>
+            ))}
+          </nav>
+          <Button as="a" href={REPO_URL} size="small" variant="secondary" leadingVisual={<MarkGithubIcon />} hasArrow={false}>
+            GitHub
+          </Button>
+        </div>
       </div>
     </header>
   )

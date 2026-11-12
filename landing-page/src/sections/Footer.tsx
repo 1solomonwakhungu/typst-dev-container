@@ -1,5 +1,3 @@
-import { Text } from '@primer/react-brand'
-
 import { LogoMark } from '../components/LogoMark'
 import { AUTHOR_URL, REPO_URL } from '../lib/site'
 import styles from '../page.module.css'
@@ -27,39 +25,39 @@ const groups = [
 export function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className={styles.footerInner}>
-        <div className={styles.footerGrid}>
+      <div className={styles.container}>
+        <div className={`${styles.split} ${styles.footerMain}`}>
           <div>
             <div className={styles.brand}>
-              <LogoMark width={28} height={28} />
+              <LogoMark width={18} height={22} />
               typst-dev-container
             </div>
-            <Text as="p" size="200" variant="muted" className={styles.footerBlurb}>
-              Typst and Pandoc dev container for reproducible PDF document builds.
-            </Text>
+            <p className={styles.footerBlurb}>Typst and Pandoc dev container for reproducible PDF document builds.</p>
           </div>
-          {groups.map((group) => (
-            <nav key={group.title} aria-label={group.title}>
-              <h2 className={styles.footerHeading}>{group.title}</h2>
-              <ul className={styles.footerList}>
-                {group.links.map((link) => (
-                  <li key={link.href}>
-                    <a href={link.href} className={styles.footerLink}>
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ))}
+          <div className={styles.footerGroups}>
+            {groups.map((group) => (
+              <nav key={group.title} aria-label={group.title}>
+                <h2 className={styles.footerHeading}>{group.title}</h2>
+                <ul className={styles.footerList}>
+                  {group.links.map((link) => (
+                    <li key={link.href}>
+                      <a href={link.href} className={styles.footerLink}>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
         </div>
-        <Text as="p" size="100" variant="muted" className={styles.footerLegal}>
+        <p className={styles.footerLegal}>
           Made by{' '}
           <a href={AUTHOR_URL} className={styles.footerLink}>
             Solomon Wakhungu
           </a>
           . Released under the MIT License.
-        </Text>
+        </p>
       </div>
     </footer>
   )
