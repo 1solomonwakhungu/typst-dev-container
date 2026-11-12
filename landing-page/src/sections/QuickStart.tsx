@@ -1,4 +1,4 @@
-import { Animate, Grid, Heading, InlineLink, Section, SectionIntro, Tabs, Text } from '@primer/react-brand'
+import { Grid, Heading, InlineLink, Section, SectionIntro, Tabs, Text } from '@primer/react-brand'
 import type { ReactNode } from 'react'
 
 import { CodeBlock, InlineCode } from '../components/CodeBlock'
@@ -66,16 +66,13 @@ export function QuickStart() {
     <Section id="quick-start" paddingBlockStart="normal" paddingBlockEnd="normal">
       <Grid>
         <Grid.Column span={{ xsmall: 12, large: 9 }}>
-          <Animate animate="slide-in-up">
+          
             <SectionIntro align="start" fullWidth className={styles.intro}>
               <SectionIntro.Heading as="h2" size="3">
                 Quick start
               </SectionIntro.Heading>
-              <SectionIntro.Description>
-                Four ways in. Each one ends with the same toolchain and the same compile command.
-              </SectionIntro.Description>
             </SectionIntro>
-          </Animate>
+          
 
           <Tabs aria-label="Ways to start" variant="underline" align="start" className={styles.tabs}>
             <Tabs.Item>VS Code</Tabs.Item>
