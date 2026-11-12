@@ -1,7 +1,7 @@
 # Landing page
 
-The site at <https://typst-dev-container.vercel.app>. React, Vite, Tailwind CSS v4
-and shadcn/ui components, built to static files.
+The site at <https://typst-dev-container.vercel.app>. React, Vite and GitHub's
+Primer Brand design system (`@primer/react-brand`), built to static files.
 
 ```bash
 npm install

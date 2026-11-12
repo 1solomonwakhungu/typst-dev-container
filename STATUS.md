@@ -32,7 +32,7 @@
   install Moby on the trixie-based image. Image builds on `main` are queued so
   overlapping pushes cannot publish out of order.
 - Completed (2026-11-11): added a landing page in `landing-page/` (Vite, React,
-  Tailwind CSS v4, shadcn/ui), deployed by Vercel from `main` to
+  GitHub's Primer Brand design system), deployed by Vercel from `main` to
   <https://typst-dev-container.vercel.app>. It reads the version matrix from
   `images/typst/docker-bake.hcl` at build time. No image or template workflow
   is triggered by changes in that folder.

@@ -1,25 +1,27 @@
-import { Footer } from '@/sections/footer'
-import { Header } from '@/sections/header'
-import { Hero } from '@/sections/hero'
-import { Image } from '@/sections/image'
-import { Notes } from '@/sections/notes'
-import { QuickStart } from '@/sections/quick-start'
-import { Upkeep } from '@/sections/upkeep'
-import { Usage } from '@/sections/usage'
+import { AnimationProvider } from '@primer/react-brand'
+
+import { Footer } from './sections/Footer'
+import { HeroSection } from './sections/HeroSection'
+import { ImageSection } from './sections/ImageSection'
+import { Nav } from './sections/Nav'
+import { Notes } from './sections/Notes'
+import { QuickStart } from './sections/QuickStart'
+import { Upkeep } from './sections/Upkeep'
+import { Usage } from './sections/Usage'
 
 export default function App() {
   return (
-    <>
-      <Header />
+    <AnimationProvider runOnce visibilityOptions={0.1}>
+      <Nav />
       <main id="main">
-        <Hero />
+        <HeroSection />
         <QuickStart />
-        <Image />
+        <ImageSection />
         <Usage />
         <Upkeep />
         <Notes />
       </main>
       <Footer />
-    </>
+    </AnimationProvider>
   )
 }

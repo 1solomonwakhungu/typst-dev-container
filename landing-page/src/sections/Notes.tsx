@@ -1,13 +1,12 @@
+import { MarkGithubIcon } from '@primer/octicons-react'
+import { Button, CTABanner, FAQ, Grid, Section } from '@primer/react-brand'
 import type { ReactNode } from 'react'
 
-import { Reveal } from '@/components/reveal'
-import { InlineCode, Section } from '@/components/section'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
-import { IMAGE } from '@/lib/site'
+import { InlineCode } from '../components/CodeBlock'
+import { CODESPACES_URL, IMAGE, REPO_URL } from '../lib/site'
 
-const notes: { id: string; question: string; answer: ReactNode }[] = [
+const notes: { question: string; answer: ReactNode }[] = [
   {
-    id: 'size',
     question: 'How big is the first pull?',
     answer: (
       <p>
@@ -17,7 +16,6 @@ const notes: { id: string; question: string; answer: ReactNode }[] = [
     ),
   },
   {
-    id: 'pin',
     question: 'How do I pin a Typst version?',
     answer: (
       <p>
@@ -28,7 +26,6 @@ const notes: { id: string; question: string; answer: ReactNode }[] = [
     ),
   },
   {
-    id: 'user',
     question: 'Which user does the container run as?',
     answer: (
       <p>
@@ -38,7 +35,6 @@ const notes: { id: string; question: string; answer: ReactNode }[] = [
     ),
   },
   {
-    id: 'platforms',
     question: 'Does it work on macOS and Windows?',
     answer: (
       <p>
@@ -48,7 +44,6 @@ const notes: { id: string; question: string; answer: ReactNode }[] = [
     ),
   },
   {
-    id: 'build-fails',
     question: 'The container fails to start. What should I check?',
     answer: (
       <p>
@@ -59,7 +54,6 @@ const notes: { id: string; question: string; answer: ReactNode }[] = [
     ),
   },
   {
-    id: 'not-found',
     question: 'typst or pandoc is not found in the terminal',
     answer: (
       <p>
@@ -72,19 +66,41 @@ const notes: { id: string; question: string; answer: ReactNode }[] = [
 
 export function Notes() {
   return (
-    <Section id="notes" title="Good to know" className="border-t border-white/10 bg-zinc-900/30">
-      <Reveal className="max-w-3xl">
-        <Accordion className="rounded-xl border border-white/10 bg-zinc-950/60 px-4 sm:px-5">
-          {notes.map((note) => (
-            <AccordionItem key={note.id} value={note.id} className="not-last:border-white/10">
-              <AccordionTrigger className="py-4 text-[0.9375rem] hover:text-teal-200 hover:no-underline">
-                {note.question}
-              </AccordionTrigger>
-              <AccordionContent className="pb-4 text-sm leading-6 text-zinc-400">{note.answer}</AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
-      </Reveal>
-    </Section>
+    <>
+      <Section id="notes" backgroundColor="subtle" paddingBlockStart="normal" paddingBlockEnd="normal">
+        <Grid>
+          <Grid.Column span={{ xsmall: 12, large: 10 }} start={{ large: 2 }}>
+            <FAQ>
+              <FAQ.Heading as="h2">Good to know</FAQ.Heading>
+              {notes.map((note) => (
+                <FAQ.Item key={note.question}>
+                  <FAQ.Question>{note.question}</FAQ.Question>
+                  <FAQ.Answer>{note.answer}</FAQ.Answer>
+                </FAQ.Item>
+              ))}
+            </FAQ>
+          </Grid.Column>
+        </Grid>
+      </Section>
+
+      <Section paddingBlockStart="normal" paddingBlockEnd="normal">
+        <Grid>
+          <Grid.Column span={12}>
+            <CTABanner hasBorder hasShadow={false} align="center">
+              <CTABanner.Heading as="h2">Clone it, reopen in the container, compile.</CTABanner.Heading>
+              <CTABanner.Description>The source, issues and version matrix are on GitHub.</CTABanner.Description>
+              <CTABanner.ButtonGroup>
+                <Button as="a" href={REPO_URL} leadingVisual={<MarkGithubIcon />}>
+                  View on GitHub
+                </Button>
+                <Button as="a" href={CODESPACES_URL}>
+                  Open in Codespaces
+                </Button>
+              </CTABanner.ButtonGroup>
+            </CTABanner>
+          </Grid.Column>
+        </Grid>
+      </Section>
+    </>
   )
 }
