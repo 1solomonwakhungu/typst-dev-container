@@ -1,8 +1,9 @@
 import type { SVGProps } from 'react'
 
+/* The viewBox hugs the glyph so the mark sits flush on the layout's left edge. */
 export function LogoMark(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden {...props}>
+    <svg viewBox="6 4.5 19 23" fill="none" aria-hidden {...props}>
       <path
         d="M9 5.5h9.5L24 11v13.5a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-17a2 2 0 0 1 2-2z"
         fill="#161b22"
