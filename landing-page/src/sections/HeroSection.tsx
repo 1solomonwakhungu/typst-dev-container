@@ -1,6 +1,7 @@
-import { Animate, Grid, Hero, Text } from '@primer/react-brand'
+import { Grid, Hero, Text } from '@primer/react-brand'
 import { Fragment } from 'react'
 
+import { CodeBlock } from '../components/CodeBlock'
 import { CopyButton } from '../components/CopyButton'
 import { CODESPACES_URL, IMAGE, latestRow } from '../lib/site'
 import styles from '../page.module.css'
@@ -9,49 +10,9 @@ const pullCommand = `docker pull ${IMAGE}:latest`
 // Lets the long image reference wrap after a slash instead of mid-word.
 const pullParts = pullCommand.split(/(?<=\/)/)
 
-function SourcePane() {
-  return (
-    <div className={styles.editor}>
-      <div className={styles.editorBar}>
-        <span aria-hidden className={styles.editorDots}>
-          <span />
-          <span />
-          <span />
-        </span>
-        <span className={styles.codeTitle}>hello.typ</span>
-      </div>
-      <pre className={styles.codeBody}>
-        <code>
-          <span className={styles.codeLine}>
-            <span className={styles.tokKeyword}>#set</span> <span className={styles.tokFunc}>text</span>(size:{' '}
-            <span className={styles.tokNumber}>14pt</span>)
-          </span>
-          <span className={`${styles.codeLine} ${styles.tokHeading}`}>
-            <span className={styles.tokKeyword}>=</span> Hello, Typst!
-          </span>
-          <span className={styles.codeLine}>This is a simple PDF document.</span>
-        </code>
-      </pre>
-      <div className={styles.editorTerminal}>
-        <span aria-hidden className={styles.codePrompt}>
-          $
-        </span>
-        typst compile hello.typ
-        <span aria-hidden className={styles.caret} />
-      </div>
-    </div>
-  )
-}
-
-function PaperPane() {
-  return (
-    <div className={styles.paper}>
-      <p className={styles.paperHeading}>Hello, Typst!</p>
-      <p className={styles.paperBody}>This is a simple PDF document.</p>
-      <span className={styles.paperName}>hello.pdf</span>
-    </div>
-  )
-}
+const helloTyp = `#set text(size: 14pt)
+= Hello, Typst!
+This is a simple PDF document.`
 
 export function HeroSection() {
   return (
@@ -59,9 +20,6 @@ export function HeroSection() {
       <Grid className={styles.heroGrid}>
         <Grid.Column span={{ xsmall: 12, large: 6 }}>
           <Hero align="start" className={styles.hero}>
-            <Hero.Label color="green">
-              Typst {latestRow.typst}, Pandoc {latestRow.pandoc}, Rust {latestRow.rust}
-            </Hero.Label>
             <Hero.Heading>Typst and Pandoc in one container</Hero.Heading>
             <Hero.Description>
               A prebuilt image with pinned versions of Typst, Pandoc and Rust. Open it in VS Code Dev Containers,
@@ -87,19 +45,26 @@ export function HeroSection() {
             <CopyButton text={pullCommand} label="Copy pull command" />
           </div>
           <Text as="p" size="200" variant="muted" className={styles.heroNote}>
-            MIT licensed. Built for linux/amd64 and linux/arm64.
+            Currently Typst {latestRow.typst}, Pandoc {latestRow.pandoc} and Rust {latestRow.rust}, for linux/amd64
+            and linux/arm64. MIT licensed.
           </Text>
         </Grid.Column>
         <Grid.Column span={{ xsmall: 12, large: 6 }} className={styles.heroVisualColumn}>
-          <Animate animate="slide-in-up">
-            <figure className={styles.heroVisual} aria-label="A Typst source file and the PDF page it compiles to">
-              <SourcePane />
-              <PaperPane />
-              <figcaption className={styles.heroCaption}>
-                The three line example from the README, and the page it compiles to.
+          <div className={styles.heroVisual}>
+            <CodeBlock title="hello.typ" lang="plain" code={helloTyp} />
+            <figure className={styles.output}>
+              <img
+                src="/hello-pdf.png"
+                width={1200}
+                height={475}
+                alt="Top of the compiled page: the heading Hello, Typst! above the line This is a simple PDF document."
+              />
+              <figcaption>
+                The top of <code>hello.pdf</code>, compiled from the file above with <code>typst compile hello.typ</code>{' '}
+                in the container.
               </figcaption>
             </figure>
-          </Animate>
+          </div>
         </Grid.Column>
       </Grid>
     </section>

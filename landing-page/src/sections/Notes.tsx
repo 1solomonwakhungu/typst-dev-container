@@ -1,9 +1,9 @@
-import { MarkGithubIcon } from '@primer/octicons-react'
-import { Button, CTABanner, FAQ, Grid, Section } from '@primer/react-brand'
+import { FAQ, Grid, Heading, Section } from '@primer/react-brand'
 import type { ReactNode } from 'react'
 
 import { InlineCode } from '../components/CodeBlock'
-import { CODESPACES_URL, IMAGE, REPO_URL } from '../lib/site'
+import { IMAGE } from '../lib/site'
+import styles from '../page.module.css'
 
 const notes: { question: string; answer: ReactNode }[] = [
   {
@@ -69,9 +69,11 @@ export function Notes() {
     <>
       <Section id="notes" backgroundColor="subtle" paddingBlockStart="normal" paddingBlockEnd="normal">
         <Grid>
-          <Grid.Column span={{ xsmall: 12, large: 10 }} start={{ large: 2 }}>
-            <FAQ>
-              <FAQ.Heading as="h2">Good to know</FAQ.Heading>
+          <Grid.Column span={{ xsmall: 12, large: 9 }}>
+            <Heading as="h2" size="3" className={styles.intro}>
+              Good to know
+            </Heading>
+            <FAQ className={styles.faq}>
               {notes.map((note) => (
                 <FAQ.Item key={note.question}>
                   <FAQ.Question>{note.question}</FAQ.Question>
@@ -83,24 +85,6 @@ export function Notes() {
         </Grid>
       </Section>
 
-      <Section paddingBlockStart="normal" paddingBlockEnd="normal">
-        <Grid>
-          <Grid.Column span={12}>
-            <CTABanner hasBorder hasShadow={false} align="center">
-              <CTABanner.Heading as="h2">Clone it, reopen in the container, compile.</CTABanner.Heading>
-              <CTABanner.Description>The source, issues and version matrix are on GitHub.</CTABanner.Description>
-              <CTABanner.ButtonGroup>
-                <Button as="a" href={REPO_URL} leadingVisual={<MarkGithubIcon />}>
-                  View on GitHub
-                </Button>
-                <Button as="a" href={CODESPACES_URL}>
-                  Open in Codespaces
-                </Button>
-              </CTABanner.ButtonGroup>
-            </CTABanner>
-          </Grid.Column>
-        </Grid>
-      </Section>
     </>
   )
 }

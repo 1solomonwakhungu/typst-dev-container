@@ -1,4 +1,4 @@
-import { Animate, Grid, Heading, InlineLink, Label, Section, SectionIntro, Text } from '@primer/react-brand'
+import { Grid, Heading, InlineLink, Label, Section, SectionIntro, Text } from '@primer/react-brand'
 
 import { InlineCode } from '../components/CodeBlock'
 import { CopyButton } from '../components/CopyButton'
@@ -26,7 +26,7 @@ export function ImageSection() {
     <Section id="image" backgroundColor="subtle" paddingBlockStart="normal" paddingBlockEnd="normal">
       <Grid>
         <Grid.Column span={12}>
-          <Animate animate="slide-in-up">
+          
             <SectionIntro align="start" className={styles.intro}>
               <SectionIntro.Heading as="h2" size="3">
                 What is in the image
@@ -36,11 +36,11 @@ export function ImageSection() {
                 from the build matrix in the repository when this page is built.
               </SectionIntro.Description>
             </SectionIntro>
-          </Animate>
+          
         </Grid.Column>
 
         <Grid.Column span={{ xsmall: 12, large: 7 }}>
-          <Animate animate="slide-in-up" className={styles.panelCard}>
+          <div className={styles.panelCard}>
             <div className={styles.tableScroll}>
               <table className={styles.table}>
                 <caption className={styles.visuallyHidden}>Published image tags and the tool versions in each</caption>
@@ -86,11 +86,11 @@ export function ImageSection() {
               <InlineLink href={`${REPO_URL}/blob/main/images/typst/docker-bake.hcl`}>docker-bake.hcl</InlineLink>{' '}
               and the <InlineLink href={`${REPO_URL}/blob/main/images/typst/Dockerfile`}>Dockerfile</InlineLink>.
             </Text>
-          </Animate>
+          </div>
         </Grid.Column>
 
         <Grid.Column span={{ xsmall: 12, large: 5 }}>
-          <Animate animate="slide-in-up" className={`${styles.panelCard} ${styles.panelCardPadded}`}>
+          <div className={`${styles.panelCard} ${styles.panelCardPadded}`}>
             <Heading as="h3" size="subhead-large">
               Contents
             </Heading>
@@ -102,11 +102,11 @@ export function ImageSection() {
                 </div>
               ))}
             </dl>
-          </Animate>
+          </div>
         </Grid.Column>
 
         <Grid.Column span={12}>
-          <Animate animate="slide-in-up" className={`${styles.panelCard} ${styles.panelCardPadded}`}>
+          <div className={`${styles.panelCard} ${styles.panelCardPadded}`}>
             <Heading as="h3" size="subhead-large">
               Editor setup that comes with the dev container
             </Heading>
@@ -124,7 +124,7 @@ export function ImageSection() {
               The config also turns on format on save, sets line endings to LF and maps{' '}
               <InlineCode>*.typ</InlineCode> files to Typst.
             </Text>
-          </Animate>
+          </div>
         </Grid.Column>
       </Grid>
     </Section>

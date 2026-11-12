@@ -1,5 +1,3 @@
-import { AnimationProvider } from '@primer/react-brand'
-
 import { Footer } from './sections/Footer'
 import { HeroSection } from './sections/HeroSection'
 import { ImageSection } from './sections/ImageSection'
@@ -11,7 +9,7 @@ import { Usage } from './sections/Usage'
 
 export default function App() {
   return (
-    <AnimationProvider runOnce visibilityOptions={0.1}>
+    <>
       <Nav />
       <main id="main">
         <HeroSection />
@@ -22,6 +20,6 @@ export default function App() {
         <Notes />
       </main>
       <Footer />
-    </AnimationProvider>
+    </>
   )
 }
