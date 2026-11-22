@@ -43,6 +43,6 @@
   `linux/arm64`) and explicit `:rust` / `:<version>-rust` variant (~667 MB
   compressed on `linux/amd64` / ~624 MB on `linux/arm64`, ~80% reduction for
   default pulls), expanded `test/typst/test.sh` with real PDF compile checks,
-  and updated template metadata, toolchain updater, docs, and landing page.
-- Next: add a `TOOLCHAIN_PR_TOKEN` secret so toolchain pull requests run CI
-  without manual approval.
+  published GitHub Releases `v1.0.4` and `v1.1.0`, verified `TOOLCHAIN_PR_TOKEN`
+  is configured, and updated template metadata, toolchain updater, docs, and
+  landing page.
