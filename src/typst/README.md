@@ -1,7 +1,7 @@
 
 # Typst Dev Container (typst)
 
-Typst and Pandoc on a Rust base image, with the Tinymist extension for VS Code
+Typst and Pandoc on Debian slim (with an optional :rust variant), plus the Tinymist extension for VS Code
 
 ## Options
 
@@ -15,9 +15,14 @@ The template uses a prebuilt image, `ghcr.io/1solomonwakhungu/typst-dev-containe
 
 - the [Typst](https://typst.app/) CLI, installed from the static musl release build
 - [Pandoc](https://pandoc.org/), for converting LaTeX, Markdown, or Word documents to and from Typst
-- the Rust toolchain from the official `rust` base image (Debian 13 trixie)
+- `git`, `curl`, and CA certificates on a minimal `debian:trixie-slim` base (default)
 
-Images are built for `linux/amd64` and `linux/arm64`. The `typstVersion` option picks the image tag: `latest` follows the newest supported Typst release, and the numbered tags stay on one Typst version. The repository [README](https://github.com/1solomonwakhungu/typst-dev-container#included-versions) lists the current Rust and Pandoc versions.
+Two image variants are published for `linux/amd64` and `linux/arm64`:
+
+- **Slim Debian (default)**: `:latest`, `:slim`, `:<version>`, and `:<version>-slim` — built on `debian:trixie-slim` for a fast, lightweight pull when you only need Typst and Pandoc.
+- **Rust variant**: `:rust` and `:<version>-rust` — built on the official `rust` base image (Debian 13 trixie), adding `rustc`, `cargo`, and build tools for Typst plugin or Rust development.
+
+The `typstVersion` option picks the image tag: `latest` follows the newest supported Typst release on Debian slim, `rust` follows the newest release on the Rust base image, and numbered tags (`<version>` or `<version>-rust`) stay on one Typst version. The repository [README](https://github.com/1solomonwakhungu/typst-dev-container#included-versions) lists the current Typst, Pandoc, and Rust versions.
 
 The container also installs these VS Code extensions:
 
