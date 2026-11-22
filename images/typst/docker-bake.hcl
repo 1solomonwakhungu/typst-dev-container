@@ -14,9 +14,9 @@ image    = "ghcr.io/1solomonwakhungu/typst-dev-container/typst"
 target "typst" {
   matrix = {
     item = [
-      { typst = "0.15.1", rust = "1.99.1", pandoc = "3.13" },
-      { typst = "0.15.0", rust = "1.99.1", pandoc = "3.13" },
-      { typst = "0.14.2", rust = "1.99.1", pandoc = "3.13" },
+      { typst = "0.15.1", rust = "1.100.0", pandoc = "3.14" },
+      { typst = "0.15.0", rust = "1.100.0", pandoc = "3.14" },
+      { typst = "0.14.2", rust = "1.100.0", pandoc = "3.14" },
     ]
   }
   name       = "typst-v${replace(item.typst, ".", "-")}"
