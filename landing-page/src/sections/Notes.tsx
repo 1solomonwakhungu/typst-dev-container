@@ -11,8 +11,21 @@ const notes: { question: string; answer: ReactNode }[] = [
     question: 'How big is the first pull?',
     answer: (
       <>
-        Roughly 650 to 700 MB compressed, depending on the platform. Most of that is the Rust base image. Later
-        starts reuse the cached image. Keep at least 3 GB of disk free for Docker.
+        About 132 to 135 MB compressed on the default <InlineCode>debian:trixie-slim</InlineCode> image (roughly
+        565 to 600 MB on disk), depending on the platform. The optional <InlineCode>:rust</InlineCode> variant is
+        roughly 624 to 667 MB compressed (about 2.5 to 2.6 GB on disk). Later starts reuse the cached image.
+      </>
+    ),
+  },
+  {
+    question: 'When should I use the :rust variant?',
+    answer: (
+      <>
+        Use the default slim tags (<InlineCode>:latest</InlineCode>, <InlineCode>:slim</InlineCode>,{' '}
+        <InlineCode>:&lt;version&gt;</InlineCode>) for everyday Typst and Pandoc document builds. Switch to{' '}
+        <InlineCode>:rust</InlineCode> or <InlineCode>:&lt;version&gt;-rust</InlineCode> if you need{' '}
+        <InlineCode>rustc</InlineCode>, <InlineCode>cargo</InlineCode>, or C/Rust build tools for Typst plugins or
+        Rust projects alongside your documents.
       </>
     ),
   },
@@ -20,7 +33,8 @@ const notes: { question: string; answer: ReactNode }[] = [
     question: 'How do I pin a Typst version?',
     answer: (
       <>
-        Use a numbered tag such as <InlineCode>{IMAGE}:0.15.0</InlineCode> instead of{' '}
+        Use a numbered tag such as <InlineCode>{IMAGE}:0.15.0</InlineCode> (or{' '}
+        <InlineCode>{IMAGE}:0.15.0-rust</InlineCode> for the Rust variant) instead of{' '}
         <InlineCode>:latest</InlineCode>. With the template, set the <InlineCode>typstVersion</InlineCode> option.
         If <InlineCode>latest</InlineCode> changes how a document builds, reproduce with a numbered tag first.
       </>

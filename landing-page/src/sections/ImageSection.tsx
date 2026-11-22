@@ -16,8 +16,8 @@ const extensions = [
 const facts = [
   { term: 'Typst', detail: 'The CLI from the static musl release build' },
   { term: 'Pandoc', detail: 'The official Linux release binaries' },
-  { term: 'Rust', detail: 'The full toolchain from the official rust base image' },
-  { term: 'Base', detail: 'Debian 13 (trixie)' },
+  { term: 'Base (default)', detail: 'Debian 13 (trixie-slim) with git, curl and CA certificates' },
+  { term: 'Rust variant', detail: 'Optional :rust and :<version>-rust tags on the official rust image (rustc and cargo)' },
   { term: 'Platforms', detail: 'linux/amd64 and linux/arm64' },
   { term: 'Workdir', detail: '/workspace' },
 ]
@@ -41,7 +41,7 @@ export function ImageSection() {
               <tr>
                 <th scope="col">Typst tag</th>
                 <th scope="col">Pandoc</th>
-                <th scope="col">Rust</th>
+                <th scope="col">Rust (:rust)</th>
                 <th scope="col">
                   <span className={styles.visuallyHidden}>Copy image reference</span>
                 </th>
@@ -71,8 +71,11 @@ export function ImageSection() {
           </table>
           <div className={styles.blockNote}>
             <Body>
-              <InlineCode>:latest</InlineCode> follows the newest supported Typst release. Numbered tags stay on one
-              Typst version. Source:{' '}
+              <InlineCode>:latest</InlineCode> and <InlineCode>:slim</InlineCode> follow the newest supported Typst
+              release on <InlineCode>debian:trixie-slim</InlineCode>. Numbered tags (
+              <InlineCode>:&lt;version&gt;</InlineCode> / <InlineCode>:&lt;version&gt;-slim</InlineCode>) stay on one
+              Typst version. Use <InlineCode>:rust</InlineCode> or <InlineCode>:&lt;version&gt;-rust</InlineCode> if
+              you need <InlineCode>rustc</InlineCode> and <InlineCode>cargo</InlineCode>. Source:{' '}
               <InlineLink href={`${REPO_URL}/blob/main/images/typst/docker-bake.hcl`}>docker-bake.hcl</InlineLink>{' '}
               and the <InlineLink href={`${REPO_URL}/blob/main/images/typst/Dockerfile`}>Dockerfile</InlineLink>.
             </Body>
