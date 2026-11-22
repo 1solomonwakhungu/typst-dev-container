@@ -16,8 +16,6 @@ The project focuses on:
 - Automated toolchain version updates
 - Smoke testing to ensure template functionality
 
-**Out of scope:** Container workflows, devcontainer configuration details, README updates, and deployment strategies (these are managed separately).
-
 ## Getting Started
 
 ### Prerequisites
@@ -154,8 +152,8 @@ docker buildx bake --set="typst.platform=linux/amd64" -f images/typst/docker-bak
 # Start a test container with your changes
 docker build -f images/typst/Dockerfile \
   --build-arg TYPST_VERSION=0.15.1 \
-  --build-arg RUST_VERSION=1.98.0 \
-  --build-arg PANDOC_VERSION=3.11 \
+  --build-arg RUST_VERSION=1.100.0 \
+  --build-arg PANDOC_VERSION=3.14 \
   -t test-typst images/typst
 
 docker run --rm -it test-typst bash
@@ -172,8 +170,7 @@ rustc --version
 
 1. **Test locally** using the verification steps above
 2. **Check the branch** off the current `main` branch
-3. **Include the Co-authored-by trailer** in commit messages
-4. **Write clear commit messages** following conventional commits:
+3. **Write clear commit messages** following conventional commits:
    - `build:` for Dockerfile/build config changes
    - `test:` for test changes
    - `docs:` for documentation changes
@@ -194,7 +191,7 @@ Updated Dockerfile to include additional Rust tools for development.
 
 ## Changes
 - Added `cargo-fmt` and `cargo-clippy` to Dockerfile
-- Updated toolchain version to 1.98.0
+- Updated toolchain version to 1.100.0
 
 ## Testing
 - ✅ Ran smoke tests locally: `./.github/actions/smoke-test/build.sh typst` and `./.github/actions/smoke-test/test.sh typst`
@@ -273,11 +270,7 @@ What actually happens
 
 ## Commit Message Format
 
-Include this trailer in all commit messages:
-
-```
-Co-authored-by: Copilot App <223556219+Copilot@users.noreply.github.com>
-```
+Use [Conventional Commits](https://www.conventionalcommits.org/) prefixes (`build:`, `feat:`, `fix:`, `test:`, `docs:`, `chore:`) with a concise summary line and an optional body explaining what changed and why.
 
 Example:
 
@@ -286,8 +279,6 @@ build: update Typst toolchain versions
 
 Updates docker-bake.hcl with the latest stable Typst releases
 and compatible Rust/Pandoc versions.
-
-Co-authored-by: Copilot App <223556219+Copilot@users.noreply.github.com>
 ```
 
 ## Questions?
