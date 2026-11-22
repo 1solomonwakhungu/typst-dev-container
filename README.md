@@ -1,44 +1,83 @@
 # Typst + Pandoc Dev Container
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/1solomonwakhungu/typst-dev-container)
+[![Build & Publish](https://github.com/1solomonwakhungu/typst-dev-container/actions/workflows/containers.yaml/badge.svg)](https://github.com/1solomonwakhungu/typst-dev-container/actions/workflows/containers.yaml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![skills.sh](https://skills.sh/b/1solomonwakhungu/typst-dev-container)](https://skills.sh/1solomonwakhungu/typst-dev-container)
 
-**Reproducible, containerized Typst and Pandoc toolchain** — No installation hassles. Write markup, compile PDFs, convert documents with a single `git clone` and "Reopen in Container."
+**Prebuilt, multi-architecture Dev Container image and OCI template with pinned Typst, Pandoc, Rust, and Tinymist.**  
+Keep PDF builds identical across macOS, Linux, Windows, GitHub Codespaces, and CI — even across Typst releases.
 
-![Typst Dev Container Header](./assets/header.png "Pre-configured development environment for Typst document creation and PDF generation")
+[Documentation & Version Matrix](https://typst-dev-container.vercel.app) · [Container Image (`ghcr.io`)](https://github.com/1solomonwakhungu/typst-dev-container/pkgs/container/typst-dev-container%2Ftypst) · [Dev Container Template](./src/typst/README.md)
 
-## The Problem
+![Typst Dev Container in VS Code with Tinymist live preview](./assets/header.png "Typst document editing and live preview inside VS Code")
 
-Setting up Typst and Pandoc locally is tedious:
-- **Version conflicts** across projects and systems
-- **Binary installation** complexity and brittleness
-- **Dependency management** across platforms (macOS, Linux, Windows)
-- **Wasted time** on toolchain setup instead of document writing
+---
 
-This container solves it by providing a **ready-to-use, reproducible environment** where the exact versions of Typst, Pandoc, and Rust are locked and consistent.
+## Why Use This Container?
 
-## Quick Start (30 Seconds)
+Installing Typst locally is fast — until a team, thesis co-author, or CI runner runs a different Typst release, lacks Pandoc for LaTeX/Markdown conversion, or needs a zero-install browser workspace.
 
-1. Clone this repository and open it in VS Code
-2. Click **"Reopen in Container"** (or press <kbd>F1</kbd> → "Dev Containers: Reopen in Container")
-3. In the container terminal, create `hello.typ`:
-   ```typst
-   #set text(size: 14pt)
-   = Hello, Typst!
-   This is a simple PDF document.
-   ```
-4. Compile to PDF:
-   ```bash
-   typst compile hello.typ
-   ```
-5. View `hello.pdf` — done!
+This project ships:
+- **Prebuilt multi-arch images** (`linux/amd64` and `linux/arm64`) on GHCR — pull and start, no local Dockerfile build.
+- **3 pinned Typst releases simultaneously** — lock a paper or CI job to an exact tag (`0.14.2`, `0.15.0`, `0.15.1`) or track `latest`.
+- **Pandoc preinstalled** — convert LaTeX, Markdown, or Word documents into Typst inside the same environment.
+- **VS Code ready out of the box** — preconfigured with **Tinymist** (`myriad-dreamin.tinymist`, `typstyle` format-on-save), **Pandoc Assist**, **Rewrap**, and **Trailing Spaces**.
+- **Automated weekly upkeep** — a scheduled GitHub Action verifies upstream Typst, Pandoc, and Rust artifacts exist before opening a smoke-tested update PR.
 
-## Key Features
+---
 
-- **[Typst](https://typst.app/)** — Modern, fast markup-based typesetting system (similar to LaTeX but simpler syntax)
-- **[Pandoc](https://pandoc.org/)** — Universal document converter (LaTeX ↔ Typst, Markdown → PDF, and more)
-- **Rust toolchain** — Pre-installed for Typst development and customization
-- **VS Code integration** — Dev Container support with recommended extensions
-- **Multi-platform** — Runs on macOS, Linux, Windows (via Docker Desktop, WSL 2, or Codespaces)
+## Quick Start
+
+Choose how you want to use it:
+
+### 1. Add to an Existing Project (Recommended)
+
+Apply the published [Dev Container Template](./src/typst/README.md) with the Dev Container CLI:
+
+```bash
+devcontainer templates apply \
+  --template-id ghcr.io/1solomonwakhungu/typst-dev-container/templates/typst \
+  --template-args '{"typstVersion": "latest"}'
+```
+
+Or in VS Code: run **Dev Containers: Add Dev Container Configuration Files...** → **Show All Definitions** → search `ghcr.io/1solomonwakhungu/typst-dev-container/templates/typst`.
+
+Or drop this minimal `.devcontainer/devcontainer.json` into any repository:
+
+```json
+{
+  "name": "Typst + Pandoc",
+  "image": "ghcr.io/1solomonwakhungu/typst-dev-container/typst:latest",
+  "customizations": {
+    "vscode": {
+      "extensions": ["myriad-dreamin.tinymist"]
+    }
+  }
+}
+```
+
+Then press <kbd>F1</kbd> → **Dev Containers: Reopen in Container**.
+
+### 2. Try Instantly in GitHub Codespaces (No Local Docker)
+
+Click the button below or run `gh codespace create --repo 1solomonwakhungu/typst-dev-container`:
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/1solomonwakhungu/typst-dev-container)
+
+### 3. Run Directly with Docker / CI (No Editor Needed)
+
+The image sets `WORKDIR /workspace`, so mount your document directory directly:
+
+```bash
+docker run --rm -v "$PWD":/workspace \
+  ghcr.io/1solomonwakhungu/typst-dev-container/typst:latest \
+  typst compile hello.typ
+```
+
+Swap `:latest` for a pinned version tag (e.g., `:0.15.1` or `:0.14.2`) for reproducible CI builds.
+
+---
 
 ## Included Versions
 
@@ -50,123 +89,151 @@ This container bundles:
 - **Base image**: `rust:1.100.0` (Debian 13 trixie)
 <!-- toolchain-versions:end -->
 
-Each Typst version is published as its own tag, for example
-`ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.15.0`. The list above is
-rewritten by the toolchain updater, so it matches `images/typst/docker-bake.hcl`.
+Each Typst release is published as its own multi-arch (`linux/amd64`, `linux/arm64`) tag on GHCR, for example:
 
-## Why This Is Better Than Manual Setup
+```text
+ghcr.io/1solomonwakhungu/typst-dev-container/typst:latest
+ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.15.1
+ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.15.0
+ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.14.2
+```
 
-| Aspect | Manual Install | This Container |
-|--------|---|---|
-| **Setup time** | 10–30 minutes | 1–2 minutes (first run pulls image) |
-| **Version consistency** | Varies by machine | Locked and reproducible |
-| **Platform support** | OS-specific scripts needed | Works on macOS, Linux, Windows |
-| **Collaboration** | "Works on my machine" syndrome | Same environment for all developers |
-| **Cleanup** | Files scattered system-wide | Single `docker stop` command |
+> The version list above is automatically updated by [`.github/scripts/update-toolchain.py`](./.github/scripts/update-toolchain.py) to stay in sync with [`images/typst/docker-bake.hcl`](./images/typst/docker-bake.hcl).
 
-## Usage
+### Preconfigured VS Code Extensions (Template)
+
+| Extension | Purpose |
+|---|---|
+| `myriad-dreamin.tinymist` | Typst language server, live preview, and `typstyle` format-on-save |
+| `FreddyZhu.pandoc-assist` | Pandoc conversion helper inside VS Code |
+| `stkb.rewrap` | Rewrap prose and comments |
+| `shardulm94.trailing-spaces` | Highlight trailing whitespace |
+
+The template also sets `files.eol` to `\n`, associates `*.typ` with `typst`, and enables `editor.formatOnSave` using `tinymist.formatterMode: "typstyle"`.
+
+---
+
+## Everyday Commands
 
 ### Typst → PDF
 
-Create a new Typst document (`.typ` file):
+Create `hello.typ`:
 
 ```typst
-#set text(font: "Linux Libertine", size: 11pt)
+#set text(size: 11pt)
 #set page(
   paper: "us-letter",
   margin: (x: 1.5in, y: 1in),
 )
 
-= A Typst Document
+= Hello, Typst!
 
-This is a simple example. Typst uses modern,
-intuitive syntax compared to LaTeX.
-
-- Fast compilation
-- Beautiful defaults
-- Powerful scripting
+Write modern markup and compile reproducible PDFs on any machine.
 ```
 
-Compile and preview:
+Compile once or watch for changes:
 
 ```bash
 # One-time compile
-typst compile document.typ document.pdf
+typst compile hello.typ hello.pdf
 
-# Watch for changes and auto-compile
-typst watch document.typ document.pdf
+# Watch and recompile on save
+typst watch hello.typ hello.pdf
 ```
 
-### LaTeX → Typst Conversion
-
-Convert existing LaTeX or Word documents:
+### Convert Existing Documents with Pandoc
 
 ```bash
 # LaTeX to Typst
 pandoc article.tex -o article.typ
 
-# Word to Markdown (then edit for Typst)
-pandoc document.docx -o document.md
+# Markdown to editable Typst, then compile to PDF
+pandoc input.md --to typst --output output.typ
+typst compile output.typ
 
-# Markdown to PDF via Typst
-pandoc README.md -o README.pdf --from markdown
+# Markdown directly to PDF via Typst
+pandoc README.md -o README.pdf --pdf-engine=typst
+
+# Word (.docx) to Markdown
+pandoc document.docx -o document.md
 ```
 
-## Prerequisites
+> **Note:** Review converted `.typ` files after running Pandoc — complex LaTeX macros and custom layouts may need manual adjustments.
 
-1. **VS Code** or compatible IDE (VS Codium, Cursor, etc.)
-2. **[Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)**
-3. **Docker** (Docker Desktop on macOS/Windows, Docker Engine on Linux)
+### Verify the Toolchain
 
-**Optional**: Use GitHub Codespaces — no local Docker needed.
+```bash
+typst --version
+pandoc --version
+rustc --version
+```
 
-## Troubleshooting
+---
 
-### Container fails to build
-- **Ensure Docker is running** and has enough free disk space (at least 3 GB)
-- **Pull the latest image**: `docker pull ghcr.io/1solomonwakhungu/typst-dev-container/typst:latest`
-- **Check logs**: Open the "Remote" output panel in VS Code for detailed error messages
+## How Versions Stay Current
 
-### `typst` or `pandoc` command not found
-- **Verify container is running**: Check the bottom-left corner of VS Code shows "Dev Container"
-- **Re-open container**: Close and reopen the workspace in the container
+- **Weekly check:** Every Monday, [`.github/workflows/update-toolchain.yaml`](./.github/workflows/update-toolchain.yaml) checks the 3 newest stable Typst releases plus Rust and Pandoc, adopting a version only after upstream binaries and Docker base tags are published.
+- **PR smoke tests:** [`.github/workflows/test-pr.yaml`](./.github/workflows/test-pr.yaml) builds the candidate image from the PR and verifies `typst` and `pandoc` inside the template before merge.
+- **Automated publish:** Merges to `main` publish multi-arch images via [`containers.yaml`](./.github/workflows/containers.yaml) and the OCI template via [`release.yaml`](./.github/workflows/release.yaml).
 
-### Slow first startup
-- **The first start pulls about 670 MB** (compressed, linux/amd64), mostly the Rust base image. Later starts reuse the cached image
-- **Network speed matters** — faster internet = faster initial setup
+---
 
-## Learn More
+## Prerequisites & Troubleshooting
 
-- [Typst Documentation](https://typst.app/docs/)
-- [Pandoc User Guide](https://pandoc.org/MANUAL.html)
-- [Dev Containers Specification](https://containers.dev/)
+**Prerequisites for local use:** VS Code (or compatible editor like VS Codium / Cursor), the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers), and Docker (Docker Desktop, WSL 2, or Docker Engine). No local setup is needed for GitHub Codespaces.
+
+<details>
+<summary><strong>First startup takes a minute / disk space</strong></summary>
+
+The first pull is roughly 650–700 MB compressed (`linux/amd64`), mostly from the official `rust` base image. Keep at least 3 GB of free disk space for Docker. Subsequent starts reuse the local image cache.
+
+</details>
+
+<details>
+<summary><strong><code>typst</code> or <code>pandoc</code> command not found</strong></summary>
+
+Your terminal is likely running on the host rather than inside the container. Check that the bottom-left corner of VS Code shows **Dev Container**; if not, run **Dev Containers: Reopen in Container**.
+
+</details>
+
+<details>
+<summary><strong>Container fails to start or pull</strong></summary>
+
+Ensure Docker is running and test pulling the image directly:
+
+```bash
+docker pull ghcr.io/1solomonwakhungu/typst-dev-container/typst:latest
+```
+
+In VS Code, check the **Remote** output panel for detailed logs.
+
+</details>
+
+<details>
+<summary><strong>Container user (<code>remoteUser</code>)</strong></summary>
+
+The template runs as `root` by default. Remove the `"remoteUser": "root"` line from your generated `.devcontainer/devcontainer.json` if you prefer a non-root user.
+
+</details>
+
+---
 
 ## Agent Skills
 
-This repository publishes two skills for coding agents, each with a different
-job:
+This repository publishes two skills for coding agents via [skills.sh](https://skills.sh/1solomonwakhungu/typst-dev-container):
 
-- [`typst-devcontainer-pandoc-setup`](./skills/typst-devcontainer-pandoc-setup/SKILL.md)
-  — for document work: sets up and verifies a containerized Typst + Pandoc
-  workspace (VS Code Dev Containers, GitHub Codespaces, Docker), converts with
-  Pandoc, and compiles Typst to PDF.
-- [`typst-toolchain-version-updater`](./skills/typst-toolchain-version-updater/SKILL.md)
-  — for maintaining this repository: updates the buildable Typst, Rust, and
-  Pandoc version matrix and the GitHub Actions publishing workflow.
-
-Install them with the [skills CLI](https://skills.sh/):
+- [`typst-devcontainer-pandoc-setup`](./skills/typst-devcontainer-pandoc-setup/SKILL.md) — sets up and verifies containerized Typst + Pandoc workspaces, converts documents with Pandoc, and compiles Typst to PDF.
+- [`typst-toolchain-version-updater`](./skills/typst-toolchain-version-updater/SKILL.md) — updates the buildable Typst, Rust, and Pandoc version matrix and publishing workflows in this repository.
 
 ```bash
 npx skills add https://github.com/1solomonwakhungu/typst-dev-container --skill typst-devcontainer-pandoc-setup
 npx skills add https://github.com/1solomonwakhungu/typst-dev-container --skill typst-toolchain-version-updater
 ```
 
-## License
+---
 
-MIT License — see [LICENSE](./LICENSE) for details.
+## Contributing & License
 
-## Contributing
+Found a bug or want to suggest an improvement? [Open an issue](https://github.com/1solomonwakhungu/typst-dev-container/issues) or see [CONTRIBUTING.md](./CONTRIBUTING.md) for local build and smoke-test instructions.
 
-Found a bug or have an improvement? [Open an issue](https://github.com/1solomonwakhungu/typst-dev-container/issues) or submit a pull request.
-
-See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+Released under the [MIT License](./LICENSE).

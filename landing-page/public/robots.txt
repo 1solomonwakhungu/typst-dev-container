@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://typst-dev-container.vercel.app/sitemap.xml
