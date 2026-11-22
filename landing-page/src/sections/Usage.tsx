@@ -22,7 +22,7 @@ pandoc document.docx -o document.md`
 
 const verifyCommands = `typst --version
 pandoc --version
-rustc --version`
+git --version`
 
 export function Usage() {
   return (
