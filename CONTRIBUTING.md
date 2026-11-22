@@ -45,7 +45,8 @@ To contribute, you'll need:
    ```bash
    typst --version
    pandoc --version
-   rustc --version
+   git --version
+   # On :rust variant tags, also: rustc --version
    ```
 
 ## Development Workflow
@@ -149,7 +150,7 @@ docker buildx bake --set="typst.platform=linux/amd64" -f images/typst/docker-bak
 ### 4. Manual Testing in Container
 
 ```bash
-# Start a test container with your changes
+# Start a test container with your changes (default slim target; pass --target rust for the :rust variant)
 docker build -f images/typst/Dockerfile \
   --build-arg TYPST_VERSION=0.15.1 \
   --build-arg RUST_VERSION=1.100.0 \
@@ -161,7 +162,8 @@ docker run --rm -it test-typst bash
 # Inside the container:
 typst --version
 pandoc --version
-rustc --version
+git --version
+# When built with --target rust (or using a :rust tag), also: rustc --version
 ```
 
 ## Pull Requests

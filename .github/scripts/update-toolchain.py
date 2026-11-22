@@ -127,7 +127,7 @@ def rust_is_buildable(version: str, assets: set[str]) -> bool:
 
 def render_readme_versions(typst_versions: list[str], rust_version: str, pandoc_version: str) -> str:
     typst = ", ".join(
-        f"{version} (`latest`)" if index == 0 else version
+        f"{version} (`latest`, `slim`)" if index == 0 else version
         for index, version in enumerate(typst_versions)
     )
     return "\n".join(
@@ -135,8 +135,7 @@ def render_readme_versions(typst_versions: list[str], rust_version: str, pandoc_
             README_START,
             f"- **Typst**: {typst}",
             f"- **Pandoc**: {pandoc_version}",
-            f"- **Rust**: {rust_version}",
-            f"- **Base image**: `rust:{rust_version}` (Debian 13 trixie)",
+            f"- **Base images**: `debian:trixie-slim` (default / `:slim`) and `rust:{rust_version}` (`:rust` variant, Debian 13 trixie)",
             README_END,
         ]
     )
@@ -193,7 +192,7 @@ def main() -> int:
 
     original_template = TEMPLATE_FILE.read_text()
     template = json.loads(original_template)
-    template["options"]["typstVersion"]["proposals"] = ["latest", *typst_versions]
+    template["options"]["typstVersion"]["proposals"] = ["latest", *typst_versions, "rust"]
     toolchain_changed = (
         content != original_bake
         or dockerfile != original_dockerfile

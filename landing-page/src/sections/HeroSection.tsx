@@ -24,8 +24,9 @@ export function HeroSection() {
             Typst and Pandoc in one container
           </Heading>
           <Text as="p" size="400" variant="muted" className={styles.heroLede}>
-            A prebuilt image with pinned versions of Typst, Pandoc and Rust. Open it in VS Code Dev Containers,
-            GitHub Codespaces or plain Docker and get the same PDF build on every machine.
+            A prebuilt Debian slim image with pinned versions of Typst and Pandoc, plus an optional :rust variant.
+            Open it in VS Code Dev Containers, GitHub Codespaces or plain Docker and get the same PDF build on every
+            machine.
           </Text>
           <div className={styles.heroActions}>
             <Button as="a" href="#quick-start" variant="primary" hasArrow={false}>
@@ -51,8 +52,8 @@ export function HeroSection() {
               <CopyButton text={imageRef} label="Copy image reference" />
             </div>
             <span className={styles.fieldHint}>
-              Typst {latestRow.typst}, Pandoc {latestRow.pandoc}, Rust {latestRow.rust}. linux/amd64 and
-              linux/arm64. MIT licensed.
+              Typst {latestRow.typst} and Pandoc {latestRow.pandoc} on Debian slim (~132 MB compressed). Optional
+              :rust variant with Rust {latestRow.rust}. linux/amd64 and linux/arm64. MIT licensed.
             </span>
           </div>
         </div>
