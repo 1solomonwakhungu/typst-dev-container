@@ -5,7 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![skills.sh](https://skills.sh/b/1solomonwakhungu/typst-dev-container)](https://skills.sh/1solomonwakhungu/typst-dev-container)
 
-**Prebuilt, multi-architecture Dev Container image and OCI template with pinned Typst, Pandoc, Rust, and Tinymist.**  
+**Prebuilt, multi-architecture Dev Container image and OCI template with pinned Typst, Pandoc, and Tinymist — ~132 MB compressed on `debian:trixie-slim`, plus an optional `:rust` variant.**  
 Keep PDF builds identical across macOS, Linux, Windows, GitHub Codespaces, and CI — even across Typst releases.
 
 [Documentation & Version Matrix](https://typst-dev-container.vercel.app) · [Container Image (`ghcr.io`)](https://github.com/1solomonwakhungu/typst-dev-container/pkgs/container/typst-dev-container%2Ftypst) · [Dev Container Template](./src/typst/README.md)
@@ -19,6 +19,7 @@ Keep PDF builds identical across macOS, Linux, Windows, GitHub Codespaces, and C
 Installing Typst locally is fast — until a team, thesis co-author, or CI runner runs a different Typst release, lacks Pandoc for LaTeX/Markdown conversion, or needs a zero-install browser workspace.
 
 This project ships:
+- **Lightweight `debian:trixie-slim` default (~132 MB compressed)** — ~80% smaller than the Rust base image for fast pulls, with an optional **`:rust` variant** (`:rust`, `:<version>-rust`) when you need `rustc` and `cargo` for Typst plugins or Rust development.
 - **Prebuilt multi-arch images** (`linux/amd64` and `linux/arm64`) on GHCR — pull and start, no local Dockerfile build.
 - **3 pinned Typst releases simultaneously** — lock a paper or CI job to an exact tag (`0.14.2`, `0.15.0`, `0.15.1`) or track `latest`.
 - **Pandoc preinstalled** — convert LaTeX, Markdown, or Word documents into Typst inside the same environment.
@@ -83,19 +84,24 @@ Swap `:latest` for a pinned version tag (e.g., `:0.15.1` or `:0.14.2`) for repro
 
 This container bundles:
 <!-- toolchain-versions:start -->
-- **Typst**: 0.15.1 (`latest`), 0.15.0, 0.14.2
+- **Typst**: 0.15.1 (`latest`, `slim`), 0.15.0, 0.14.2
 - **Pandoc**: 3.14
-- **Rust**: 1.100.0
-- **Base image**: `rust:1.100.0` (Debian 13 trixie)
+- **Base images**: `debian:trixie-slim` (default / `:slim`) and `rust:1.100.0` (`:rust` variant, Debian 13 trixie)
 <!-- toolchain-versions:end -->
 
-Each Typst release is published as its own multi-arch (`linux/amd64`, `linux/arm64`) tag on GHCR, for example:
+Each Typst release is published as its own multi-arch (`linux/amd64`, `linux/arm64`) tag on GHCR in both slim Debian (default) and Rust variants, for example:
 
 ```text
+# Slim Debian default (~132 MB compressed)
 ghcr.io/1solomonwakhungu/typst-dev-container/typst:latest
+ghcr.io/1solomonwakhungu/typst-dev-container/typst:slim
 ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.15.1
 ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.15.0
 ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.14.2
+
+# Rust toolchain variant (~667 MB compressed, adds rustc & cargo)
+ghcr.io/1solomonwakhungu/typst-dev-container/typst:rust
+ghcr.io/1solomonwakhungu/typst-dev-container/typst:0.15.1-rust
 ```
 
 > The version list above is automatically updated by [`.github/scripts/update-toolchain.py`](./.github/scripts/update-toolchain.py) to stay in sync with [`images/typst/docker-bake.hcl`](./images/typst/docker-bake.hcl).
@@ -165,7 +171,8 @@ pandoc document.docx -o document.md
 ```bash
 typst --version
 pandoc --version
-rustc --version
+git --version
+# On :rust tags, also: rustc --version
 ```
 
 ---
@@ -183,9 +190,9 @@ rustc --version
 **Prerequisites for local use:** VS Code (or compatible editor like VS Codium / Cursor), the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers), and Docker (Docker Desktop, WSL 2, or Docker Engine). No local setup is needed for GitHub Codespaces.
 
 <details>
-<summary><strong>First startup takes a minute / disk space</strong></summary>
+<summary><strong>First pull size &amp; disk space</strong></summary>
 
-The first pull is roughly 650–700 MB compressed (`linux/amd64`), mostly from the official `rust` base image. Keep at least 3 GB of free disk space for Docker. Subsequent starts reuse the local image cache.
+The default `debian:trixie-slim` image (`:latest`, `:slim`, `:<version>`) pulls ~132–135 MB compressed (~565–600 MB on disk depending on platform). The optional `:rust` variant (`:rust`, `:<version>-rust`) pulls ~624–667 MB compressed (~2.5–2.6 GB on disk). Subsequent starts reuse the local image cache.
 
 </details>
 

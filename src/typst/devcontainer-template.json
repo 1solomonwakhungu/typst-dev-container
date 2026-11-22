@@ -1,8 +1,8 @@
 {
     "id": "typst",
-    "version": "1.0.4",
+    "version": "1.1.0",
     "name": "Typst Dev Container",
-    "description": "Typst and Pandoc on a Rust base image, with the Tinymist extension for VS Code",
+    "description": "Typst and Pandoc on Debian slim (with an optional :rust variant), plus the Tinymist extension for VS Code",
     "documentationURL": "https://github.com/1solomonwakhungu/typst-dev-container/tree/main/src/typst",
     "publisher": "Solomon Wakhungu <1solomonwakhungu@users.noreply.github.com>",
     "licenseURL": "https://github.com/1solomonwakhungu/typst-dev-container/blob/main/LICENSE",
@@ -14,7 +14,8 @@
                 "latest",
                 "0.15.1",
                 "0.15.0",
-                "0.14.2"
+                "0.14.2",
+                "rust"
             ],
             "default": "latest"
         }

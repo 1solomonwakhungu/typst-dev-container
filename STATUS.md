@@ -4,7 +4,7 @@
 - Completed: the toolchain updater now adopts a release only once the
   artifacts the image builds from are published, so a Docker Hub or upstream
   upload lag no longer breaks the scheduled update.
-- Current versions: Typst 0.15.1, 0.15.0, and 0.14.2; Rust 1.100.0; Pandoc 3.14 (template 1.0.4).
+- Current versions: Typst 0.15.1, 0.15.0, and 0.14.2; Pandoc 3.14; `debian:trixie-slim` default and Rust 1.100.0 (`:rust` variant) (template 1.1.0).
 - Completed (2026-10-16): hardened CI and fixed template publishing.
   - `containers.yaml` publishes images only from `main`.
   - `test-pr.yaml` builds the image from the pull request (amd64) and smoke
@@ -38,5 +38,11 @@
   1.0.4), and completed storefront, repository hygiene, and landing page SEO
   improvements (`README.md`, `.gitattributes`, `CONTRIBUTING.md`,
   `landing-page/public/robots.txt`, and `landing-page/public/sitemap.xml`).
+- Completed (2026-11-22): added `v1.1.0` slim Debian default image
+  (`debian:trixie-slim`, ~132 MB compressed on `linux/amd64` / ~135 MB on
+  `linux/arm64`) and explicit `:rust` / `:<version>-rust` variant (~667 MB
+  compressed on `linux/amd64` / ~624 MB on `linux/arm64`, ~80% reduction for
+  default pulls), expanded `test/typst/test.sh` with real PDF compile checks,
+  and updated template metadata, toolchain updater, docs, and landing page.
 - Next: add a `TOOLCHAIN_PR_TOKEN` secret so toolchain pull requests run CI
   without manual approval.
