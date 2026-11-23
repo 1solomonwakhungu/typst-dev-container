@@ -1,6 +1,6 @@
 # Landing page
 
-The site at <https://typst-dev-container.vercel.app>. React, Vite and GitHub's
+The site at <https://typst.harlo.dev>. React, Vite and GitHub's
 Primer Brand design system (`@primer/react-brand`), built to static files.
 
 ```bash

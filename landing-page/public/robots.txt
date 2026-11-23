@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://typst-dev-container.vercel.app/sitemap.xml
+Sitemap: https://typst.harlo.dev/sitemap.xml

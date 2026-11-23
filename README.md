@@ -8,7 +8,7 @@
 **Prebuilt, multi-architecture Dev Container image and OCI template with pinned Typst, Pandoc, and Tinymist — ~132 MB compressed on `debian:trixie-slim`, plus an optional `:rust` variant.**  
 Keep PDF builds identical across macOS, Linux, Windows, GitHub Codespaces, and CI — even across Typst releases.
 
-[Documentation & Version Matrix](https://typst-dev-container.vercel.app) · [Container Image (`ghcr.io`)](https://github.com/1solomonwakhungu/typst-dev-container/pkgs/container/typst-dev-container%2Ftypst) · [Dev Container Template](./src/typst/README.md)
+[Documentation & Version Matrix](https://typst.harlo.dev) · [Container Image (`ghcr.io`)](https://github.com/1solomonwakhungu/typst-dev-container/pkgs/container/typst-dev-container%2Ftypst) · [Dev Container Template](./src/typst/README.md)
 
 ![Typst Dev Container in VS Code with Tinymist live preview](./assets/header.png "Typst document editing and live preview inside VS Code")
 
