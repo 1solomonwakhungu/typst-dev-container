@@ -26,6 +26,21 @@ updates:
     commit-message:
       prefix: chore
 
+  - package-ecosystem: npm
+    directory: /landing-page
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+    groups:
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+
   # No docker entry: images/typst/Dockerfile's base image (rust:${RUST_VERSION})
   # and the Typst/Pandoc versions in docker-bake.hcl are bumped together by
   # the Update Typst Toolchain workflow. A Dependabot docker update would
