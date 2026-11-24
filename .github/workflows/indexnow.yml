@@ -1,0 +1,50 @@
+name: Submit to IndexNow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "landing-page/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Vercel deployment
+        if: github.event_name == 'push'
+        run: sleep 75
+
+      - name: Submit sitemap URLs to IndexNow
+        env:
+          SITE_HOST: typst.harlo.dev
+          INDEXNOW_KEY: fcf9ec5a77e9058c6aeb871432ab03e8
+        run: |
+          node --input-type=module -e '
+            const host = process.env.SITE_HOST;
+            const key = process.env.INDEXNOW_KEY;
+            const keyLocation = `https://${host}/${key}.txt`;
+            const sitemapUrl = `https://${host}/sitemap.xml`;
+
+            const keyRes = await fetch(keyLocation);
+            if (!keyRes.ok || (await keyRes.text()).trim() !== key) {
+              throw new Error(`Key verification failed at ${keyLocation} (HTTP ${keyRes.status})`);
+            }
+
+            const smRes = await fetch(sitemapUrl);
+            if (!smRes.ok) throw new Error(`Failed to fetch ${sitemapUrl}: HTTP ${smRes.status}`);
+            const xml = await smRes.text();
+            const urlList = [...xml.matchAll(/<loc>\s*([^<\s]+)\s*<\/loc>/g)].map((m) => m[1]);
+            if (urlList.length === 0) throw new Error(`No URLs found in ${sitemapUrl}`);
+
+            const res = await fetch("https://api.indexnow.org/indexnow", {
+              method: "POST",
+              headers: { "Content-Type": "application/json; charset=utf-8" },
+              body: JSON.stringify({ host, key, keyLocation, urlList }),
+            });
+            if (!res.ok) throw new Error(`IndexNow returned HTTP ${res.status}: ${await res.text()}`);
+            console.log(`Submitted ${urlList.length} URL(s) for ${host} (HTTP ${res.status})`);
+          '
